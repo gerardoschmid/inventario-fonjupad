@@ -1,0 +1,73 @@
+:root {
+    --primary-color: #2c3e50;
+    --secondary-color: #ecf0f1;
+    --accent-color: #3498db;
+    --table-header-bg: #f8f9fa;
+    --border-radius: 8px;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f4f7f6;
+    color: #333;
+}
+
+.navbar {
+    background-color: var(--primary-color) !important;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.navbar-brand {
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.card {
+    border: none;
+    border-radius: var(--border-radius);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+    font-weight: 600;
+    color: var(--primary-color);
+}
+
+.table-sm th, .table-sm td {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    vertical-align: middle;
+}
+
+.table thead th {
+    background-color: var(--table-header-bg);
+    border-bottom: 2px solid #dee2e6;
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.5px;
+    color: #6c757d;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #1a252f;
+    border-color: #1a252f;
+}
+
+.badge-custom {
+    padding: 0.4em 0.6em;
+    font-weight: 500;
+}
+
+/* Estilo para impresión */
+@media print {
+    .no-print { display: none !important; }
+    .card { box-shadow: none; border: 1px solid #ddd; }
+    body { background-color: #fff; }
+}
