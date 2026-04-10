@@ -1,3 +1,18 @@
+nav.navbar {
+    background-color: #1a237e;
+    border-color: #1a237e;
+}
+
+nav.navbar .navbar-brand,
+nav.navbar .navbar-nav > li > a {
+    color: #ffffff !important;
+}
+
+nav.navbar .navbar-nav > li > a:hover,
+nav.navbar .navbar-nav > li > a:focus {
+    background-color: #455a64 !important;
+}
+
 nav.navbar:hover {
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
@@ -14,7 +29,7 @@ div.card {
 
 
 div.cardHeader {
-    background-color: #4CAF50;
+    background-color: #1a237e;
     color: white;
     padding: 10px;
     font-size: 40px;
@@ -41,4 +56,19 @@ div.kv-avatar div.file-input div.file-preview {
 .vertical {
 	padding-top: 150px;
 	padding-bottom: 150px;
+}
+
+.panel-primary > .panel-heading {
+    background-color: #1a237e;
+    border-color: #1a237e;
+}
+
+.btn-primary {
+    background-color: #1a237e;
+    border-color: #1a237e;
+}
+
+.btn-primary:hover, .btn-primary:focus, .btn-primary:active {
+    background-color: #455a64;
+    border-color: #455a64;
 }

@@ -6,7 +6,31 @@ $(document).ready(function() {
 	// manage product data table
 	manageProductTable = $('#manageProductTable').DataTable({
 		'ajax': 'php_action/fetchProduct.php',
-		'order': []
+		'order': [],
+		'dom': 'Bfrtip',
+        'buttons': [
+            {
+                extend: 'excelHtml5',
+                text: '<i class="fa fa-file-excel-o"></i> Excel',
+                titleAttr: 'Exportar a Excel',
+                className: 'btn btn-success'
+            },
+            {
+                extend: 'pdfHtml5',
+                text: '<i class="fa fa-file-pdf-o"></i> PDF',
+                titleAttr: 'Exportar a PDF',
+                className: 'btn btn-danger'
+            },
+            {
+                extend: 'print',
+                text: '<i class="fa fa-print"></i> Imprimir',
+                titleAttr: 'Vista de Impresión',
+                className: 'btn btn-info'
+            }
+        ],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        }
 	});
 
 	// add product modal btn clicked
@@ -43,82 +67,52 @@ $(document).ready(function() {
 			var productImage = $("#productImage").val();
 			var productName = $("#productName").val();
 			var quantity = $("#quantity").val();
-			var rate = $("#rate").val();
 			var brandName = $("#brandName").val();
 			var categoryName = $("#categoryName").val();
 			var productStatus = $("#productStatus").val();
+            var codigoInterno = $("#codigoInterno").val();
 	
-			if(productImage == "") {
-				$("#productImage").closest('.center-block').after('<p class="text-danger">Product Image field is required</p>');
-				$('#productImage').closest('.form-group').addClass('has-error');
-			}	else {
-				// remov error text field
-				$("#productImage").find('.text-danger').remove();
-				// success out for form 
-				$("#productImage").closest('.form-group').addClass('has-success');	  	
-			}	// /else
-
 			if(productName == "") {
-				$("#productName").after('<p class="text-danger">Product Name field is required</p>');
+				$("#productName").after('<p class="text-danger">El nombre del activo es obligatorio</p>');
 				$('#productName').closest('.form-group').addClass('has-error');
 			}	else {
-				// remov error text field
 				$("#productName").find('.text-danger').remove();
-				// success out for form 
 				$("#productName").closest('.form-group').addClass('has-success');	  	
-			}	// /else
+			}
 
 			if(quantity == "") {
-				$("#quantity").after('<p class="text-danger">Quantity field is required</p>');
+				$("#quantity").after('<p class="text-danger">La cantidad es obligatoria</p>');
 				$('#quantity').closest('.form-group').addClass('has-error');
 			}	else {
-				// remov error text field
 				$("#quantity").find('.text-danger').remove();
-				// success out for form 
 				$("#quantity").closest('.form-group').addClass('has-success');	  	
-			}	// /else
-
-			if(rate == "") {
-				$("#rate").after('<p class="text-danger">Rate field is required</p>');
-				$('#rate').closest('.form-group').addClass('has-error');
-			}	else {
-				// remov error text field
-				$("#rate").find('.text-danger').remove();
-				// success out for form 
-				$("#rate").closest('.form-group').addClass('has-success');	  	
-			}	// /else
+			}
 
 			if(brandName == "") {
-				$("#brandName").after('<p class="text-danger">Brand Name field is required</p>');
+				$("#brandName").after('<p class="text-danger">La sede es obligatoria</p>');
 				$('#brandName').closest('.form-group').addClass('has-error');
 			}	else {
-				// remov error text field
 				$("#brandName").find('.text-danger').remove();
-				// success out for form 
 				$("#brandName").closest('.form-group').addClass('has-success');	  	
-			}	// /else
+			}
 
 			if(categoryName == "") {
-				$("#categoryName").after('<p class="text-danger">Category Name field is required</p>');
+				$("#categoryName").after('<p class="text-danger">La categoría es obligatoria</p>');
 				$('#categoryName').closest('.form-group').addClass('has-error');
 			}	else {
-				// remov error text field
 				$("#categoryName").find('.text-danger').remove();
-				// success out for form 
 				$("#categoryName").closest('.form-group').addClass('has-success');	  	
-			}	// /else
+			}
 
 			if(productStatus == "") {
-				$("#productStatus").after('<p class="text-danger">Product Status field is required</p>');
+				$("#productStatus").after('<p class="text-danger">La visibilidad es obligatoria</p>');
 				$('#productStatus').closest('.form-group').addClass('has-error');
 			}	else {
-				// remov error text field
 				$("#productStatus").find('.text-danger').remove();
-				// success out for form 
 				$("#productStatus").closest('.form-group').addClass('has-success');	  	
-			}	// /else
+			}
 
-			if(productImage && productName && quantity && rate && brandName && categoryName && productStatus) {
+			if(productName && quantity && brandName && categoryName && productStatus) {
 				// submit loading button
 				$("#createProductBtn").button('loading');
 
@@ -199,7 +193,6 @@ function editProduct(productId = null) {
 			data: {productId: productId},
 			dataType: 'json',
 			success:function(response) {		
-			// alert(response.product_image);
 				// modal spinner
 				$('.div-loading').addClass('div-hide');
 				// modal div
@@ -210,114 +203,74 @@ function editProduct(productId = null) {
 				$("#editProductImage").fileinput({		      
 				});  
 
-				// $("#editProductImage").fileinput({
-		  //     overwriteInitial: true,
-			 //    maxFileSize: 2500,
-			 //    showClose: false,
-			 //    showCaption: false,
-			 //    browseLabel: '',
-			 //    removeLabel: '',
-			 //    browseIcon: '<i class="glyphicon glyphicon-folder-open"></i>',
-			 //    removeIcon: '<i class="glyphicon glyphicon-remove"></i>',
-			 //    removeTitle: 'Cancel or reset changes',
-			 //    elErrorContainer: '#kv-avatar-errors-1',
-			 //    msgErrorClass: 'alert alert-block alert-danger',
-			 //    defaultPreviewContent: '<img src="stock/'+response.product_image+'" alt="Profile Image" style="width:100%;">',
-			 //    layoutTemplates: {main2: '{preview} {remove} {browse}'},								    
-		  // 		allowedFileExtensions: ["jpg", "png", "gif", "JPG", "PNG", "GIF"]
-				// });  
-
 				// product id 
 				$(".editProductFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.product_id+'" />');				
 				$(".editProductPhotoFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.product_id+'" />');				
 				
-				// product name
+				// fill fields
+                $("#editCodigoInterno").val(response.codigo_interno);
 				$("#editProductName").val(response.product_name);
-				// quantity
+                $("#editColor").val(response.color);
 				$("#editQuantity").val(response.quantity);
-				// rate
+                $("#editEstadoActivo").val(response.estado);
+                $("#editUbicacionEspecifica").val(response.ubicacion_especifica);
 				$("#editRate").val(response.rate);
-				// brand name
 				$("#editBrandName").val(response.brand_id);
-				// category name
 				$("#editCategoryName").val(response.categories_id);
-				// status
 				$("#editProductStatus").val(response.active);
 
 				// update the product data function
 				$("#editProductForm").unbind('submit').bind('submit', function() {
 
 					// form validation
-					var productImage = $("#editProductImage").val();
 					var productName = $("#editProductName").val();
 					var quantity = $("#editQuantity").val();
-					var rate = $("#editRate").val();
 					var brandName = $("#editBrandName").val();
 					var categoryName = $("#editCategoryName").val();
 					var productStatus = $("#editProductStatus").val();
 								
 
 					if(productName == "") {
-						$("#editProductName").after('<p class="text-danger">Product Name field is required</p>');
+						$("#editProductName").after('<p class="text-danger">El nombre es obligatorio</p>');
 						$('#editProductName').closest('.form-group').addClass('has-error');
 					}	else {
-						// remov error text field
 						$("#editProductName").find('.text-danger').remove();
-						// success out for form 
 						$("#editProductName").closest('.form-group').addClass('has-success');	  	
-					}	// /else
+					}
 
 					if(quantity == "") {
-						$("#editQuantity").after('<p class="text-danger">Quantity field is required</p>');
+						$("#editQuantity").after('<p class="text-danger">La cantidad es obligatoria</p>');
 						$('#editQuantity').closest('.form-group').addClass('has-error');
 					}	else {
-						// remov error text field
 						$("#editQuantity").find('.text-danger').remove();
-						// success out for form 
 						$("#editQuantity").closest('.form-group').addClass('has-success');	  	
-					}	// /else
-
-					if(rate == "") {
-						$("#editRate").after('<p class="text-danger">Rate field is required</p>');
-						$('#editRate').closest('.form-group').addClass('has-error');
-					}	else {
-						// remov error text field
-						$("#editRate").find('.text-danger').remove();
-						// success out for form 
-						$("#editRate").closest('.form-group').addClass('has-success');	  	
-					}	// /else
+					}
 
 					if(brandName == "") {
-						$("#editBrandName").after('<p class="text-danger">Brand Name field is required</p>');
+						$("#editBrandName").after('<p class="text-danger">La sede es obligatoria</p>');
 						$('#editBrandName').closest('.form-group').addClass('has-error');
 					}	else {
-						// remov error text field
 						$("#editBrandName").find('.text-danger').remove();
-						// success out for form 
 						$("#editBrandName").closest('.form-group').addClass('has-success');	  	
-					}	// /else
+					}
 
 					if(categoryName == "") {
-						$("#editCategoryName").after('<p class="text-danger">Category Name field is required</p>');
+						$("#editCategoryName").after('<p class="text-danger">La categoría es obligatoria</p>');
 						$('#editCategoryName').closest('.form-group').addClass('has-error');
 					}	else {
-						// remov error text field
 						$("#editCategoryName").find('.text-danger').remove();
-						// success out for form 
 						$("#editCategoryName").closest('.form-group').addClass('has-success');	  	
-					}	// /else
+					}
 
 					if(productStatus == "") {
-						$("#editProductStatus").after('<p class="text-danger">Product Status field is required</p>');
+						$("#editProductStatus").after('<p class="text-danger">La visibilidad es obligatoria</p>');
 						$('#editProductStatus').closest('.form-group').addClass('has-error');
 					}	else {
-						// remov error text field
 						$("#editProductStatus").find('.text-danger').remove();
-						// success out for form 
 						$("#editProductStatus").closest('.form-group').addClass('has-success');	  	
-					}	// /else					
+					}
 
-					if(productName && quantity && rate && brandName && categoryName && productStatus) {
+					if(productName && quantity && brandName && categoryName && productStatus) {
 						// submit loading button
 						$("#editProductBtn").button('loading');
 
@@ -376,14 +329,12 @@ function editProduct(productId = null) {
 					var productImage = $("#editProductImage").val();					
 					
 					if(productImage == "") {
-						$("#editProductImage").closest('.center-block').after('<p class="text-danger">Product Image field is required</p>');
+						$("#editProductImage").closest('.center-block').after('<p class="text-danger">La imagen es obligatoria</p>');
 						$('#editProductImage').closest('.form-group').addClass('has-error');
 					}	else {
-						// remov error text field
 						$("#editProductImage").find('.text-danger').remove();
-						// success out for form 
 						$("#editProductImage").closest('.form-group').addClass('has-success');	  	
-					}	// /else
+					}
 
 					if(productImage) {
 						// submit loading button
@@ -513,33 +464,3 @@ function removeProduct(productId = null) {
 		}); // /remove product btn clicked
 	} // /if productid
 } // /remove product function
-
-function clearForm(oForm) {
-	// var frm_elements = oForm.elements;									
-	// console.log(frm_elements);
-	// 	for(i=0;i<frm_elements.length;i++) {
-	// 		field_type = frm_elements[i].type.toLowerCase();									
-	// 		switch (field_type) {
-	// 	    case "text":
-	// 	    case "password":
-	// 	    case "textarea":
-	// 	    case "hidden":
-	// 	    case "select-one":	    
-	// 	      frm_elements[i].value = "";
-	// 	      break;
-	// 	    case "radio":
-	// 	    case "checkbox":	    
-	// 	      if (frm_elements[i].checked)
-	// 	      {
-	// 	          frm_elements[i].checked = false;
-	// 	      }
-	// 	      break;
-	// 	    case "file": 
-	// 	    	if(frm_elements[i].options) {
-	// 	    		frm_elements[i].options= false;
-	// 	    	}
-	// 	    default:
-	// 	        break;
-	//     } // /switch
-	// 	} // for
-}
