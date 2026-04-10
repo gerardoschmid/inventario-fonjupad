@@ -7,7 +7,10 @@ $(document).ready(function() {
 	// manage brand table
 	manageBrandTable = $("#manageBrandTable").DataTable({
 		'ajax': 'php_action/fetchBrand.php',
-		'order': []		
+		'order': [],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        }
 	});
 
 	// submit brand form function
@@ -21,23 +24,18 @@ $(document).ready(function() {
 		var brandStatus = $("#brandStatus").val();
 
 		if(brandName == "") {
-			$("#brandName").after('<p class="text-danger">Brand Name field is required</p>');
+			$("#brandName").after('<p class="text-danger">El nombre de la sede es obligatorio</p>');
 			$('#brandName').closest('.form-group').addClass('has-error');
 		} else {
-			// remov error text field
 			$("#brandName").find('.text-danger').remove();
-			// success out for form 
 			$("#brandName").closest('.form-group').addClass('has-success');	  	
 		}
 
 		if(brandStatus == "") {
-			$("#brandStatus").after('<p class="text-danger">Brand Name field is required</p>');
-
+			$("#brandStatus").after('<p class="text-danger">El estado es obligatorio</p>');
 			$('#brandStatus').closest('.form-group').addClass('has-error');
 		} else {
-			// remov error text field
 			$("#brandStatus").find('.text-danger').remove();
-			// success out for form 
 			$("#brandStatus").closest('.form-group').addClass('has-success');	  	
 		}
 
@@ -136,23 +134,18 @@ function editBrands(brandId = null) {
 					var brandStatus = $('#editBrandStatus').val();
 
 					if(brandName == "") {
-						$("#editBrandName").after('<p class="text-danger">Brand Name field is required</p>');
+						$("#editBrandName").after('<p class="text-danger">El nombre de la sede es obligatorio</p>');
 						$('#editBrandName').closest('.form-group').addClass('has-error');
 					} else {
-						// remov error text field
 						$("#editBrandName").find('.text-danger').remove();
-						// success out for form 
 						$("#editBrandName").closest('.form-group').addClass('has-success');	  	
 					}
 
 					if(brandStatus == "") {
-						$("#editBrandStatus").after('<p class="text-danger">Brand Name field is required</p>');
-
+						$("#editBrandStatus").after('<p class="text-danger">El estado es obligatorio</p>');
 						$('#editBrandStatus').closest('.form-group').addClass('has-error');
 					} else {
-						// remove error text field
 						$("#editBrandStatus").find('.text-danger').remove();
-						// success out for form 
 						$("#editBrandStatus").closest('.form-group').addClass('has-success');	  	
 					}
 

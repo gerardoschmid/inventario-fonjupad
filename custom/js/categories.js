@@ -6,7 +6,10 @@ $(document).ready(function() {
 
 	manageCategoriesTable = $('#manageCategoriesTable').DataTable({
 		'ajax' : 'php_action/fetchCategories.php',
-		'order': []
+		'order': [],
+        "language": {
+            "url": "//cdn.datatables.net/plug-ins/1.10.20/i18n/Spanish.json"
+        }
 	}); // manage categories Data Table
 
 	// on click on submit categories form modal
@@ -25,22 +28,18 @@ $(document).ready(function() {
 			var categoriesStatus = $("#categoriesStatus").val();
 
 			if(categoriesName == "") {
-				$("#categoriesName").after('<p class="text-danger">Brand Name field is required</p>');
+				$("#categoriesName").after('<p class="text-danger">El nombre de la categoría es obligatorio</p>');
 				$('#categoriesName').closest('.form-group').addClass('has-error');
 			} else {
-				// remov error text field
 				$("#categoriesName").find('.text-danger').remove();
-				// success out for form 
 				$("#categoriesName").closest('.form-group').addClass('has-success');	  	
 			}
 
 			if(categoriesStatus == "") {
-				$("#categoriesStatus").after('<p class="text-danger">Brand Name field is required</p>');
+				$("#categoriesStatus").after('<p class="text-danger">El estado es obligatorio</p>');
 				$('#categoriesStatus').closest('.form-group').addClass('has-error');
 			} else {
-				// remov error text field
 				$("#categoriesStatus").find('.text-danger').remove();
-				// success out for form 
 				$("#categoriesStatus").closest('.form-group').addClass('has-success');	  	
 			}
 
@@ -140,22 +139,18 @@ function editCategories(categoriesId = null) {
 					var categoriesStatus = $("#editCategoriesStatus").val();
 
 					if(categoriesName == "") {
-						$("#editCategoriesName").after('<p class="text-danger">Brand Name field is required</p>');
+						$("#editCategoriesName").after('<p class="text-danger">El nombre de la categoría es obligatorio</p>');
 						$('#editCategoriesName').closest('.form-group').addClass('has-error');
 					} else {
-						// remov error text field
 						$("#editCategoriesName").find('.text-danger').remove();
-						// success out for form 
 						$("#editCategoriesName").closest('.form-group').addClass('has-success');	  	
 					}
 
 					if(categoriesStatus == "") {
-						$("#editCategoriesStatus").after('<p class="text-danger">Brand Name field is required</p>');
+						$("#editCategoriesStatus").after('<p class="text-danger">El estado es obligatorio</p>');
 						$('#editCategoriesStatus').closest('.form-group').addClass('has-error');
 					} else {
-						// remov error text field
 						$("#editCategoriesStatus").find('.text-danger').remove();
-						// success out for form 
 						$("#editCategoriesStatus").closest('.form-group').addClass('has-success');	  	
 					}
 
