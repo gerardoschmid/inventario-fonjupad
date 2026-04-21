@@ -5,12 +5,13 @@ nav.navbar {
 
 nav.navbar .navbar-brand,
 nav.navbar .navbar-nav > li > a {
-    color: #ffffff !important;
+    color: #000000 !important;
 }
 
 nav.navbar .navbar-nav > li > a:hover,
 nav.navbar .navbar-nav > li > a:focus {
-    background-color: #455a64 !important;
+    background-color: #0071a6 !important;
+    color: #ffffff !important;
 }
 
 nav.navbar:hover {
