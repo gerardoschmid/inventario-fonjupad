@@ -49,7 +49,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-    	<form class="form-horizontal" id="submitProductForm" action="php_action/createProduct.php" method="POST" enctype="multipart/form-data">
+	<form class="form-horizontal" id="submitProductForm" action="php_action/save_activo.php" method="POST" enctype="multipart/form-data">
 	      <div class="modal-header">
 	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 	        <h4 class="modal-title"><i class="fa fa-plus"></i> Añadir Activo</h4>
@@ -92,7 +92,9 @@
 			<label for="color" class="col-sm-3 control-label">Color: </label>
 			<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="color" placeholder="Color (ej. Blanco, Azul)" name="color" autocomplete="off">
+				      <select class="form-control" id="color" name="color">
+					    <option value="">~~SELECCIONAR~~</option>
+				      </select>
 				    </div>
 	        </div> <!-- /form-group-->
 
@@ -109,11 +111,7 @@
 			<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
 				      <select class="form-control" id="estadoActivo" name="estadoActivo">
-					<option value="">~~SELECCIONAR~~</option>
-					<option value="Nuevo">Nuevo</option>
-					<option value="Buen Estado">Buen Estado</option>
-					<option value="Reparación">En Reparación</option>
-					<option value="Baja">Baja</option>
+					    <option value="">~~SELECCIONAR~~</option>
 				      </select>
 				    </div>
 	        </div> <!-- /form-group-->
@@ -122,7 +120,9 @@
 			<label for="ubicacionEspecifica" class="col-sm-3 control-label">Ubicación: </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="ubicacionEspecifica" placeholder="Estante, Salón, etc." name="ubicacionEspecifica" autocomplete="off">
+				      <select class="form-control" id="ubicacionEspecifica" name="ubicacionEspecifica">
+					    <option value="">~~SELECCIONAR~~</option>
+				      </select>
 				    </div>
 	        </div> <!-- /form-group-->
 
@@ -139,16 +139,7 @@
 	        	<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
 				      <select class="form-control" id="brandName" name="brandName">
-					<option value="">~~SELECCIONAR~~</option>
-				      	<?php 
-				      	$sql = "SELECT brand_id, brand_name, brand_active, brand_status FROM brands WHERE brand_status = 1 AND brand_active = 1";
-								$result = $connect->query($sql);
-
-								while($row = $result->fetch_array()) {
-									echo "<option value='".$row[0]."'>".$row[1]."</option>";
-								} // while
-								
-				      	?>
+					    <option value="">~~SELECCIONAR~~</option>
 				      </select>
 				    </div>
 	        </div> <!-- /form-group-->	
@@ -158,16 +149,7 @@
 	        	<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
 				      <select type="text" class="form-control" id="categoryName" name="categoryName" >
-					<option value="">~~SELECCIONAR~~</option>
-				      	<?php 
-				      	$sql = "SELECT categories_id, categories_name, categories_active, categories_status FROM categories WHERE categories_status = 1 AND categories_active = 1";
-								$result = $connect->query($sql);
-
-								while($row = $result->fetch_array()) {
-									echo "<option value='".$row[0]."'>".$row[1]."</option>";
-								} // while
-								
-				      	?>
+					    <option value="">~~SELECCIONAR~~</option>
 				      </select>
 				    </div>
 	        </div> <!-- /form-group-->					        	         	       
@@ -262,7 +244,7 @@
 				    </div>
 				    <!-- product image -->
 				    <div role="tabpanel" class="tab-pane" id="productInfo">
-				    	<form class="form-horizontal" id="editProductForm" action="php_action/editProduct.php" method="POST">				    
+					<form class="form-horizontal" id="editProductForm" action="php_action/save_activo.php" method="POST">
 				    	<br />
 
 				    	<div id="edit-product-messages"></div>
@@ -287,7 +269,9 @@
 					<label for="editColor" class="col-sm-3 control-label">Color: </label>
 					<label class="col-sm-1 control-label">: </label>
 						    <div class="col-sm-8">
-						      <input type="text" class="form-control" id="editColor" placeholder="Color" name="editColor" autocomplete="off">
+						      <select class="form-control" id="editColor" name="editColor">
+							    <option value="">~~SELECCIONAR~~</option>
+						      </select>
 						    </div>
 			        </div> <!-- /form-group-->
 
@@ -304,11 +288,7 @@
 			        	<label class="col-sm-1 control-label">: </label>
 						    <div class="col-sm-8">
 						      <select class="form-control" id="editEstadoActivo" name="editEstadoActivo">
-							<option value="">~~SELECCIONAR~~</option>
-							<option value="Nuevo">Nuevo</option>
-							<option value="Buen Estado">Buen Estado</option>
-							<option value="Reparación">En Reparación</option>
-							<option value="Baja">Baja</option>
+							    <option value="">~~SELECCIONAR~~</option>
 						      </select>
 						    </div>
 			        </div> <!-- /form-group-->
@@ -317,7 +297,9 @@
 					<label for="editUbicacionEspecifica" class="col-sm-3 control-label">Ubicación: </label>
 			        	<label class="col-sm-1 control-label">: </label>
 						    <div class="col-sm-8">
-						      <input type="text" class="form-control" id="editUbicacionEspecifica" placeholder="Ubicación" name="editUbicacionEspecifica" autocomplete="off">
+						      <select class="form-control" id="editUbicacionEspecifica" name="editUbicacionEspecifica">
+							    <option value="">~~SELECCIONAR~~</option>
+						      </select>
 						    </div>
 			        </div> <!-- /form-group-->
 
@@ -334,16 +316,7 @@
 			        	<label class="col-sm-1 control-label">: </label>
 						    <div class="col-sm-8">
 						      <select class="form-control" id="editBrandName" name="editBrandName">
-							<option value="">~~SELECCIONAR~~</option>
-						      	<?php 
-						      	$sql = "SELECT brand_id, brand_name, brand_active, brand_status FROM brands WHERE brand_status = 1 AND brand_active = 1";
-										$result = $connect->query($sql);
-
-										while($row = $result->fetch_array()) {
-											echo "<option value='".$row[0]."'>".$row[1]."</option>";
-										} // while
-
-						      	?>
+							    <option value="">~~SELECCIONAR~~</option>
 						      </select>
 						    </div>
 			        </div> <!-- /form-group-->	
@@ -353,16 +326,7 @@
 			        	<label class="col-sm-1 control-label">: </label>
 						    <div class="col-sm-8">
 						      <select type="text" class="form-control" id="editCategoryName" name="editCategoryName" >
-							<option value="">~~SELECCIONAR~~</option>
-						      	<?php 
-						      	$sql = "SELECT categories_id, categories_name, categories_active, categories_status FROM categories WHERE categories_status = 1 AND categories_active = 1";
-										$result = $connect->query($sql);
-
-										while($row = $result->fetch_array()) {
-											echo "<option value='".$row[0]."'>".$row[1]."</option>";
-										} // while
-
-						      	?>
+							    <option value="">~~SELECCIONAR~~</option>
 						      </select>
 						    </div>
 			        </div> <!-- /form-group-->					        	         	       
