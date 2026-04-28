@@ -281,7 +281,7 @@ class PHPExcel_CachedObjectStorage_APC extends PHPExcel_CachedObjectStorage_Cach
      *
      * @return  boolean
      */
-    public static function cacheMethodIsAvailable() {
+    public static function cacheMethodIsDisponible() {
         if (!function_exists('apc_store')) {
             return FALSE;
         }

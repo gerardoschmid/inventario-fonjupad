@@ -79,17 +79,6 @@
         <li id="navImport"><a href="importar_activos.php"> <i class="glyphicon glyphicon-import"></i> El Cargador </a></li>
 		<?php } ?>
 		
-        <li class="dropdown" id="navOrder">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"> <i class="glyphicon glyphicon-export"></i> Salidas <span class="caret"></span></a>
-          <ul class="dropdown-menu">            
-            <li id="topNavAddOrder"><a href="orders.php?o=add"> <i class="glyphicon glyphicon-plus"></i> Nueva Salida</a></li>
-            <li id="topNavManageOrder"><a href="orders.php?o=manord"> <i class="glyphicon glyphicon-edit"></i> Gestionar Salidas</a></li>
-          </ul>
-        </li> 
-		
-		<?php  if(isset($_SESSION['userId']) && $_SESSION['userId']==1) { ?>
-        <li id="navReport"><a href="report.php"> <i class="glyphicon glyphicon-check"></i> Reportes </a></li>
-		<?php } ?> 
     <?php  if(isset($_SESSION['userId']) && $_SESSION['userId']==1) { ?>
         <li id="importbrand"><a href="importbrand.php"> <i class="glyphicon glyphicon-import"></i> Importar Sedes </a></li>
 		<?php } ?>   

@@ -149,7 +149,7 @@ class PHPExcel_Style_NumberFormat extends PHPExcel_Style_Supervisor implements P
 	 * Apply styles from array
 	 *
 	 * <code>
-	 * $objPHPExcel->getActiveSheet()->getStyle('B2')->getNumberFormat()->applyFromArray(
+	 * $objPHPExcel->getActivoSheet()->getStyle('B2')->getNumberFormat()->applyFromArray(
 	 *		array(
 	 *			'code' => PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_EUR_SIMPLE
 	 *		)
@@ -164,7 +164,7 @@ class PHPExcel_Style_NumberFormat extends PHPExcel_Style_Supervisor implements P
 	{
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
 				if (array_key_exists('code', $pStyles)) {
 					$this->setFormatCode($pStyles['code']);
@@ -206,7 +206,7 @@ class PHPExcel_Style_NumberFormat extends PHPExcel_Style_Supervisor implements P
 		}
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('code' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_formatCode = $pValue;
 			$this->_builtInFormatCode = self::builtInFormatCodeIndex($pValue);
@@ -238,7 +238,7 @@ class PHPExcel_Style_NumberFormat extends PHPExcel_Style_Supervisor implements P
 
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('code' => self::builtInFormatCode($pValue)));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_builtInFormatCode = $pValue;
 			$this->_formatCode = self::builtInFormatCode($pValue);

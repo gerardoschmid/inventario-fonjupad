@@ -259,7 +259,7 @@ class PHPExcel_Reader_CSV extends PHPExcel_Reader_Abstract implements PHPExcel_R
 		while ($objPHPExcel->getSheetCount() <= $this->_sheetIndex) {
 			$objPHPExcel->createSheet();
 		}
-		$sheet = $objPHPExcel->setActiveSheetIndex($this->_sheetIndex);
+		$sheet = $objPHPExcel->setActivoSheetIndex($this->_sheetIndex);
 
 		$escapeEnclosures = array( "\\" . $this->_enclosure,
 								   $this->_enclosure . $this->_enclosure

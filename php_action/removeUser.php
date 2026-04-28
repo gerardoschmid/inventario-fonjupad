@@ -1,26 +1,25 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
+$valid = array('success' => false, 'messages' => array());
 
-$valid['success'] = array('success' => false, 'messages' => array());
+if($_POST) {
 
-$userid = $_POST['userid'];
+	$userId = $_POST['userId'];
 
-if($userid) { 
+	try {
+        $sql = "DELETE FROM users WHERE user_id = :userId";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':userId' => $userId]);
+        $valid['success'] = true;
+        $valid['messages'] = "Eliminado correctamente";
+    } catch (PDOException $e) {
+        $valid['success'] = false;
+        $valid['messages'] = "Error al eliminar: " . $e->getMessage();
+    }
 
- $sql = "DELETE FROM users  WHERE user_id = {$userid}";
-
- if($connect->query($sql) === TRUE) {
- 	$valid['success'] = true;
-	$valid['messages'] = "Successfully Removed";		
- } else {
- 	$valid['success'] = false;
- 	$valid['messages'] = "Error while remove the user";
- }
+	echo json_encode($valid);
  
- $connect->close();
-
- echo json_encode($valid);
- 
-} // /if $_POST
+}

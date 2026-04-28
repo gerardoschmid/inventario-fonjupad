@@ -233,7 +233,7 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 		while ($objPHPExcel->getSheetCount() <= $this->_sheetIndex) {
 			$objPHPExcel->createSheet();
 		}
-		$objPHPExcel->setActiveSheetIndex( $this->_sheetIndex );
+		$objPHPExcel->setActivoSheetIndex( $this->_sheetIndex );
 
 		$fromFormats	= array('\-',	'\ ');
 		$toFormats		= array('-',	' ');
@@ -342,10 +342,10 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				$cellData = PHPExcel_Calculation::_unwrapResult($cellData);
 
 				// Set cell value
-				$objPHPExcel->getActiveSheet()->getCell($columnLetter.$row)->setValue(($hasCalculatedValue) ? $cellDataFormula : $cellData);
+				$objPHPExcel->getActivoSheet()->getCell($columnLetter.$row)->setValue(($hasCalculatedValue) ? $cellDataFormula : $cellData);
 				if ($hasCalculatedValue) {
 					$cellData = PHPExcel_Calculation::_unwrapResult($cellData);
-					$objPHPExcel->getActiveSheet()->getCell($columnLetter.$row)->setCalculatedValue($cellData);
+					$objPHPExcel->getActivoSheet()->getCell($columnLetter.$row)->setCalculatedValue($cellData);
 				}
 			//	Read cell formatting
 			} elseif ($dataType == 'F') {
@@ -386,23 +386,23 @@ class PHPExcel_Reader_SYLK extends PHPExcel_Reader_Abstract implements PHPExcel_
 				if (($formatStyle > '') && ($column > '') && ($row > '')) {
 					$columnLetter = PHPExcel_Cell::stringFromColumnIndex($column-1);
 					if (isset($this->_formats[$formatStyle])) {
-						$objPHPExcel->getActiveSheet()->getStyle($columnLetter.$row)->applyFromArray($this->_formats[$formatStyle]);
+						$objPHPExcel->getActivoSheet()->getStyle($columnLetter.$row)->applyFromArray($this->_formats[$formatStyle]);
 					}
 				}
 				if ((!empty($styleData)) && ($column > '') && ($row > '')) {
 					$columnLetter = PHPExcel_Cell::stringFromColumnIndex($column-1);
-					$objPHPExcel->getActiveSheet()->getStyle($columnLetter.$row)->applyFromArray($styleData);
+					$objPHPExcel->getActivoSheet()->getStyle($columnLetter.$row)->applyFromArray($styleData);
 				}
 				if ($columnWidth > '') {
 					if ($startCol == $endCol) {
 						$startCol = PHPExcel_Cell::stringFromColumnIndex($startCol-1);
-						$objPHPExcel->getActiveSheet()->getColumnDimension($startCol)->setWidth($columnWidth);
+						$objPHPExcel->getActivoSheet()->getColumnDimension($startCol)->setWidth($columnWidth);
 					} else {
 						$startCol = PHPExcel_Cell::stringFromColumnIndex($startCol-1);
 						$endCol = PHPExcel_Cell::stringFromColumnIndex($endCol-1);
-						$objPHPExcel->getActiveSheet()->getColumnDimension($startCol)->setWidth($columnWidth);
+						$objPHPExcel->getActivoSheet()->getColumnDimension($startCol)->setWidth($columnWidth);
 						do {
-							$objPHPExcel->getActiveSheet()->getColumnDimension(++$startCol)->setWidth($columnWidth);
+							$objPHPExcel->getActivoSheet()->getColumnDimension(++$startCol)->setWidth($columnWidth);
 						} while ($startCol != $endCol);
 					}
 				}

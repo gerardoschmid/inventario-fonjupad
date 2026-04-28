@@ -111,7 +111,7 @@ class PHPExcel_Calculation_Functions {
 	 *													PHPExcel_Calculation_Functions::COMPATIBILITY_EXCEL			'Excel'
 	 *													PHPExcel_Calculation_Functions::COMPATIBILITY_GNUMERIC		'Gnumeric'
 	 *													PHPExcel_Calculation_Functions::COMPATIBILITY_OPENOFFICE	'OpenOfficeCalc'
-	 * @return	 boolean	(Success or Failure)
+	 * @return	 boolean	(Éxito or Failure)
 	 */
 	public static function setCompatibilityMode($compatibilityMode) {
 		if (($compatibilityMode == self::COMPATIBILITY_EXCEL) ||
@@ -150,7 +150,7 @@ class PHPExcel_Calculation_Functions {
 	 *													PHPExcel_Calculation_Functions::RETURNDATE_PHP_NUMERIC		'P'
 	 *													PHPExcel_Calculation_Functions::RETURNDATE_PHP_OBJECT		'O'
 	 *													PHPExcel_Calculation_Functions::RETURNDATE_EXCEL			'E'
-	 * @return	 boolean							Success or failure
+	 * @return	 boolean							Éxito or failure
 	 */
 	public static function setReturnDateType($returnDateType) {
 		if (($returnDateType == self::RETURNDATE_PHP_NUMERIC) ||

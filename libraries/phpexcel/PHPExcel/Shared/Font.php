@@ -192,7 +192,7 @@ class PHPExcel_Shared_Font
 	 * Set autoSize method
 	 *
 	 * @param string $pValue
-	 * @return	 boolean					Success or failure
+	 * @return	 boolean					Éxito or failure
 	 */
 	public static function setAutoSizeMethod($pValue = self::AUTOSIZE_METHOD_APPROX)
 	{

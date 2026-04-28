@@ -366,11 +366,11 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 
 			// Create new Worksheet
 			$objPHPExcel->createSheet();
-			$objPHPExcel->setActiveSheetIndex($worksheetID);
+			$objPHPExcel->setActivoSheetIndex($worksheetID);
 			//	Use false for $updateFormulaCellReferences to prevent adjustment of worksheet references in formula
 			//		cells... during the load, all formulae should be correct, and we're simply bringing the worksheet
 			//		name in line with the formula, not the reverse
-			$objPHPExcel->getActiveSheet()->setTitle($worksheetName,false);
+			$objPHPExcel->getActivoSheet()->setTitle($worksheetName,false);
 
 			if ((!$this->_readDataOnly) && (isset($sheet->PrintInformation))) {
 				if (isset($sheet->PrintInformation->Margins)) {
@@ -384,22 +384,22 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 						}
 						switch($key) {
 							case 'top' :
-								$objPHPExcel->getActiveSheet()->getPageMargins()->setTop($marginSize);
+								$objPHPExcel->getActivoSheet()->getPageMargins()->setTop($marginSize);
 								break;
 							case 'bottom' :
-								$objPHPExcel->getActiveSheet()->getPageMargins()->setBottom($marginSize);
+								$objPHPExcel->getActivoSheet()->getPageMargins()->setBottom($marginSize);
 								break;
 							case 'left' :
-								$objPHPExcel->getActiveSheet()->getPageMargins()->setLeft($marginSize);
+								$objPHPExcel->getActivoSheet()->getPageMargins()->setLeft($marginSize);
 								break;
 							case 'right' :
-								$objPHPExcel->getActiveSheet()->getPageMargins()->setRight($marginSize);
+								$objPHPExcel->getActivoSheet()->getPageMargins()->setRight($marginSize);
 								break;
 							case 'header' :
-								$objPHPExcel->getActiveSheet()->getPageMargins()->setHeader($marginSize);
+								$objPHPExcel->getActivoSheet()->getPageMargins()->setHeader($marginSize);
 								break;
 							case 'footer' :
-								$objPHPExcel->getActiveSheet()->getPageMargins()->setFooter($marginSize);
+								$objPHPExcel->getActivoSheet()->getPageMargins()->setFooter($marginSize);
 								break;
 						}
 					}
@@ -474,7 +474,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 						case '80' :		//	Array
 					}
 				}
-				$objPHPExcel->getActiveSheet()->getCell($column.$row)->setValueExplicit($cell,$type);
+				$objPHPExcel->getActivoSheet()->getCell($column.$row)->setValueExplicit($cell,$type);
 			}
 
 			if ((!$this->_readDataOnly) && (isset($sheet->Objects))) {
@@ -482,7 +482,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					$commentAttributes = $comment->attributes();
 					//	Only comment objects are handled at the moment
 					if ($commentAttributes->Text) {
-						$objPHPExcel->getActiveSheet()->getComment( (string)$commentAttributes->ObjectBound )
+						$objPHPExcel->getActivoSheet()->getComment( (string)$commentAttributes->ObjectBound )
 															->setAuthor( (string)$commentAttributes->Author )
 															->setText($this->_parseRichText((string)$commentAttributes->Text) );
 					}
@@ -694,7 +694,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 						}
 //						var_dump($styleArray);
 //						echo '<br />';
-						$objPHPExcel->getActiveSheet()->getStyle($cellRange)->applyFromArray($styleArray);
+						$objPHPExcel->getActivoSheet()->getStyle($cellRange)->applyFromArray($styleArray);
 					}
 				}
 			}
@@ -711,19 +711,19 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					$hidden = ((isset($columnAttributes['Hidden'])) && ($columnAttributes['Hidden'] == '1')) ? true : false;
 					$columnCount = (isset($columnAttributes['Count'])) ? $columnAttributes['Count'] : 1;
 					while ($c < $column) {
-						$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setWidth($defaultWidth);
+						$objPHPExcel->getActivoSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setWidth($defaultWidth);
 						++$c;
 					}
 					while (($c < ($column+$columnCount)) && ($c <= $maxCol)) {
-						$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setWidth($columnWidth);
+						$objPHPExcel->getActivoSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setWidth($columnWidth);
 						if ($hidden) {
-							$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setVisible(false);
+							$objPHPExcel->getActivoSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setVisible(false);
 						}
 						++$c;
 					}
 				}
 				while ($c <= $maxCol) {
-					$objPHPExcel->getActiveSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setWidth($defaultWidth);
+					$objPHPExcel->getActivoSheet()->getColumnDimension(PHPExcel_Cell::stringFromColumnIndex($c))->setWidth($defaultWidth);
 					++$c;
 				}
 			}
@@ -742,19 +742,19 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 					$rowCount = (isset($rowAttributes['Count'])) ? $rowAttributes['Count'] : 1;
 					while ($r < $row) {
 						++$r;
-						$objPHPExcel->getActiveSheet()->getRowDimension($r)->setRowHeight($defaultHeight);
+						$objPHPExcel->getActivoSheet()->getRowDimension($r)->setRowHeight($defaultHeight);
 					}
 					while (($r < ($row+$rowCount)) && ($r < $maxRow)) {
 						++$r;
-						$objPHPExcel->getActiveSheet()->getRowDimension($r)->setRowHeight($rowHeight);
+						$objPHPExcel->getActivoSheet()->getRowDimension($r)->setRowHeight($rowHeight);
 						if ($hidden) {
-							$objPHPExcel->getActiveSheet()->getRowDimension($r)->setVisible(false);
+							$objPHPExcel->getActivoSheet()->getRowDimension($r)->setVisible(false);
 						}
 					}
 				}
 				while ($r < $maxRow) {
 					++$r;
-					$objPHPExcel->getActiveSheet()->getRowDimension($r)->setRowHeight($defaultHeight);
+					$objPHPExcel->getActivoSheet()->getRowDimension($r)->setRowHeight($defaultHeight);
 				}
 			}
 
@@ -762,7 +762,7 @@ class PHPExcel_Reader_Gnumeric extends PHPExcel_Reader_Abstract implements PHPEx
 			if (isset($sheet->MergedRegions)) {
 				foreach($sheet->MergedRegions->Merge as $mergeCells) {
 					if (strpos($mergeCells,':') !== FALSE) {
-						$objPHPExcel->getActiveSheet()->mergeCells($mergeCells);
+						$objPHPExcel->getActivoSheet()->mergeCells($mergeCells);
 					}
 				}
 			}

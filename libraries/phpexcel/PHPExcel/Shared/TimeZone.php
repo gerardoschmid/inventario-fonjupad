@@ -48,7 +48,7 @@ class PHPExcel_Shared_TimeZone
 	 * Validate a Timezone name
 	 *
 	 * @param	 string		$timezone			Time zone (e.g. 'Europe/London')
-	 * @return	 boolean						Success or failure
+	 * @return	 boolean						Éxito or failure
 	 */
 	public static function _validateTimeZone($timezone) {
 		if (in_array($timezone, DateTimeZone::listIdentifiers())) {
@@ -61,7 +61,7 @@ class PHPExcel_Shared_TimeZone
 	 * Set the Default Timezone used for date/time conversions
 	 *
 	 * @param	 string		$timezone			Time zone (e.g. 'Europe/London')
-	 * @return	 boolean						Success or failure
+	 * @return	 boolean						Éxito or failure
 	 */
 	public static function setTimeZone($timezone) {
 		if (self::_validateTimezone($timezone)) {

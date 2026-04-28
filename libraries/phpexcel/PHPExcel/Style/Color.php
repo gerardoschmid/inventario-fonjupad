@@ -150,7 +150,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
 	 * Apply styles from array
 	 *
 	 * <code>
-	 * $objPHPExcel->getActiveSheet()->getStyle('B2')->getFont()->getColor()->applyFromArray( array('rgb' => '808080') );
+	 * $objPHPExcel->getActivoSheet()->getStyle('B2')->getFont()->getColor()->applyFromArray( array('rgb' => '808080') );
 	 * </code>
 	 *
 	 * @param	array	$pStyles	Array containing style information
@@ -160,7 +160,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
 	public function applyFromArray($pStyles = NULL) {
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
 				if (array_key_exists('rgb', $pStyles)) {
 					$this->setRGB($pStyles['rgb']);
@@ -199,7 +199,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
 		}
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('argb' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_argb = $pValue;
 		}
@@ -230,7 +230,7 @@ class PHPExcel_Style_Color extends PHPExcel_Style_Supervisor implements PHPExcel
 		}
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('argb' => 'FF' . $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_argb = 'FF' . $pValue;
 		}

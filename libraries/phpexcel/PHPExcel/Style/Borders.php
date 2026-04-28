@@ -190,7 +190,7 @@ class PHPExcel_Style_Borders extends PHPExcel_Style_Supervisor implements PHPExc
      * Apply styles from array
      *
      * <code>
-     * $objPHPExcel->getActiveSheet()->getStyle('B2')->getBorders()->applyFromArray(
+     * $objPHPExcel->getActivoSheet()->getStyle('B2')->getBorders()->applyFromArray(
      * 		array(
      * 			'bottom'     => array(
      * 				'style' => PHPExcel_Style_Border::BORDER_DASHDOT,
@@ -208,7 +208,7 @@ class PHPExcel_Style_Borders extends PHPExcel_Style_Supervisor implements PHPExc
      * );
      * </code>
      * <code>
-     * $objPHPExcel->getActiveSheet()->getStyle('B2')->getBorders()->applyFromArray(
+     * $objPHPExcel->getActivoSheet()->getStyle('B2')->getBorders()->applyFromArray(
      * 		array(
      * 			'allborders' => array(
      * 				'style' => PHPExcel_Style_Border::BORDER_DASHDOT,
@@ -227,7 +227,7 @@ class PHPExcel_Style_Borders extends PHPExcel_Style_Supervisor implements PHPExc
 	public function applyFromArray($pStyles = null) {
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
 				if (array_key_exists('left', $pStyles)) {
 					$this->getLeft()->applyFromArray($pStyles['left']);
@@ -394,7 +394,7 @@ class PHPExcel_Style_Borders extends PHPExcel_Style_Supervisor implements PHPExc
     	}
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('diagonaldirection' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_diagonalDirection = $pValue;
 		}

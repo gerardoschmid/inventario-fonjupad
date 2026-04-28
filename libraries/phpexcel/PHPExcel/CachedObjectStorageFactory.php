@@ -168,7 +168,7 @@ class PHPExcel_CachedObjectStorageFactory
         $activeMethods = array();
         foreach(self::$_storageMethods as $storageMethod) {
             $cacheStorageClass = 'PHPExcel_CachedObjectStorage_' . $storageMethod;
-            if (call_user_func(array($cacheStorageClass, 'cacheMethodIsAvailable'))) {
+            if (call_user_func(array($cacheStorageClass, 'cacheMethodIsDisponible'))) {
                 $activeMethods[] = $storageMethod;
             }
         }
@@ -192,7 +192,7 @@ class PHPExcel_CachedObjectStorageFactory
 
         $cacheStorageClass = 'PHPExcel_CachedObjectStorage_'.$method;
         if (!call_user_func(array( $cacheStorageClass,
-                                   'cacheMethodIsAvailable'))) {
+                                   'cacheMethodIsDisponible'))) {
             return FALSE;
         }
 
@@ -219,12 +219,12 @@ class PHPExcel_CachedObjectStorageFactory
      **/
     public static function getInstance(PHPExcel_Worksheet $parent)
     {
-        $cacheMethodIsAvailable = TRUE;
+        $cacheMethodIsDisponible = TRUE;
         if (self::$_cacheStorageMethod === NULL) {
-            $cacheMethodIsAvailable = self::initialize();
+            $cacheMethodIsDisponible = self::initialize();
         }
 
-        if ($cacheMethodIsAvailable) {
+        if ($cacheMethodIsDisponible) {
             $instance = new self::$_cacheStorageClass( $parent,
                                                        self::$_storageMethodParameters[self::$_cacheStorageMethod]
                                                      );

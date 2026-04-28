@@ -44,7 +44,7 @@ class PHPExcel
 	private $_calculationEngine = NULL;
 
     /**
-     * Active sheet index
+     * Activo sheet index
      *
      * @var int
      */
@@ -428,7 +428,7 @@ class PHPExcel
      *
      * @return PHPExcel_Worksheet
      */
-    public function getActiveSheet()
+    public function getActivoSheet()
     {
         return $this->_workSheetCollection[$this->_activeSheetIndex];
     }
@@ -504,7 +504,7 @@ class PHPExcel
     /**
      * Remove sheet by index
      *
-     * @param  int $pIndex Active sheet index
+     * @param  int $pIndex Activo sheet index
      * @throws PHPExcel_Exception
      */
     public function removeSheetByIndex($pIndex = 0)
@@ -632,9 +632,9 @@ class PHPExcel
     /**
      * Get active sheet index
      *
-     * @return int Active sheet index
+     * @return int Activo sheet index
      */
-    public function getActiveSheetIndex()
+    public function getActivoSheetIndex()
     {
         return $this->_activeSheetIndex;
     }
@@ -642,11 +642,11 @@ class PHPExcel
     /**
      * Set active sheet index
      *
-     * @param  int $pIndex Active sheet index
+     * @param  int $pIndex Activo sheet index
      * @throws PHPExcel_Exception
      * @return PHPExcel_Worksheet
      */
-    public function setActiveSheetIndex($pIndex = 0)
+    public function setActivoSheetIndex($pIndex = 0)
     {
     		$numSheets = count($this->_workSheetCollection);
 
@@ -657,7 +657,7 @@ class PHPExcel
         } else {
             $this->_activeSheetIndex = $pIndex;
         }
-        return $this->getActiveSheet();
+        return $this->getActivoSheet();
     }
 
     /**
@@ -667,10 +667,10 @@ class PHPExcel
      * @return PHPExcel_Worksheet
      * @throws PHPExcel_Exception
      */
-    public function setActiveSheetIndexByName($pValue = '')
+    public function setActivoSheetIndexByName($pValue = '')
     {
         if (($worksheet = $this->getSheetByName($pValue)) instanceof PHPExcel_Worksheet) {
-            $this->setActiveSheetIndex($this->getIndex($worksheet));
+            $this->setActivoSheetIndex($this->getIndex($worksheet));
             return $worksheet;
         }
 

@@ -1805,31 +1805,31 @@ class PHPExcel_Calculation_Statistical {
 	 * Returns the hypergeometric distribution. HYPGEOMDIST returns the probability of a given number of
 	 * sample successes, given the sample size, population successes, and population size.
 	 *
-	 * @param	float		$sampleSuccesses		Number of successes in the sample
+	 * @param	float		$sampleÉxitoes		Number of successes in the sample
 	 * @param	float		$sampleNumber			Size of the sample
-	 * @param	float		$populationSuccesses	Number of successes in the population
+	 * @param	float		$populationÉxitoes	Number of successes in the population
 	 * @param	float		$populationNumber		Population size
 	 * @return	float
 	 *
 	 */
-	public static function HYPGEOMDIST($sampleSuccesses, $sampleNumber, $populationSuccesses, $populationNumber) {
-		$sampleSuccesses		= floor(PHPExcel_Calculation_Functions::flattenSingleValue($sampleSuccesses));
+	public static function HYPGEOMDIST($sampleÉxitoes, $sampleNumber, $populationÉxitoes, $populationNumber) {
+		$sampleÉxitoes		= floor(PHPExcel_Calculation_Functions::flattenSingleValue($sampleÉxitoes));
 		$sampleNumber			= floor(PHPExcel_Calculation_Functions::flattenSingleValue($sampleNumber));
-		$populationSuccesses	= floor(PHPExcel_Calculation_Functions::flattenSingleValue($populationSuccesses));
+		$populationÉxitoes	= floor(PHPExcel_Calculation_Functions::flattenSingleValue($populationÉxitoes));
 		$populationNumber		= floor(PHPExcel_Calculation_Functions::flattenSingleValue($populationNumber));
 
-		if ((is_numeric($sampleSuccesses)) && (is_numeric($sampleNumber)) && (is_numeric($populationSuccesses)) && (is_numeric($populationNumber))) {
-			if (($sampleSuccesses < 0) || ($sampleSuccesses > $sampleNumber) || ($sampleSuccesses > $populationSuccesses)) {
+		if ((is_numeric($sampleÉxitoes)) && (is_numeric($sampleNumber)) && (is_numeric($populationÉxitoes)) && (is_numeric($populationNumber))) {
+			if (($sampleÉxitoes < 0) || ($sampleÉxitoes > $sampleNumber) || ($sampleÉxitoes > $populationÉxitoes)) {
 				return PHPExcel_Calculation_Functions::NaN();
 			}
 			if (($sampleNumber <= 0) || ($sampleNumber > $populationNumber)) {
 				return PHPExcel_Calculation_Functions::NaN();
 			}
-			if (($populationSuccesses <= 0) || ($populationSuccesses > $populationNumber)) {
+			if (($populationÉxitoes <= 0) || ($populationÉxitoes > $populationNumber)) {
 				return PHPExcel_Calculation_Functions::NaN();
 			}
-			return PHPExcel_Calculation_MathTrig::COMBIN($populationSuccesses,$sampleSuccesses) *
-				   PHPExcel_Calculation_MathTrig::COMBIN($populationNumber - $populationSuccesses,$sampleNumber - $sampleSuccesses) /
+			return PHPExcel_Calculation_MathTrig::COMBIN($populationÉxitoes,$sampleÉxitoes) *
+				   PHPExcel_Calculation_MathTrig::COMBIN($populationNumber - $populationÉxitoes,$sampleNumber - $sampleÉxitoes) /
 				   PHPExcel_Calculation_MathTrig::COMBIN($populationNumber,$sampleNumber);
 		}
 		return PHPExcel_Calculation_Functions::VALUE();
@@ -2473,7 +2473,7 @@ class PHPExcel_Calculation_Statistical {
 	 *		variable. Like the binomial, trials are assumed to be independent.
 	 *
 	 * @param	float		$failures		Number of Failures
-	 * @param	float		$successes		Threshold number of Successes
+	 * @param	float		$successes		Threshold number of Éxitoes
 	 * @param	float		$probability	Probability of success on each trial
 	 * @return	float
 	 *

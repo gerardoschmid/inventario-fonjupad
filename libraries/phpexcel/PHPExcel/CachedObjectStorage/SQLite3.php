@@ -334,7 +334,7 @@ class PHPExcel_CachedObjectStorage_SQLite3 extends PHPExcel_CachedObjectStorage_
 	 *
 	 * @return	boolean
 	 */
-	public static function cacheMethodIsAvailable() {
+	public static function cacheMethodIsDisponible() {
 		if (!class_exists('SQLite3',FALSE)) {
 			return false;
 		}

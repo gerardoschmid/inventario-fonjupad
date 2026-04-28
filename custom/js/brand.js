@@ -21,7 +21,7 @@ $(document).ready(function() {
 		$('.form-group').removeClass('has-error').removeClass('has-success');			
 
 		var brandName = $("#brandName").val();
-		var brandStatus = $("#brandStatus").val();
+		var brandEstado = $("#brandEstado").val();
 
 		if(brandName == "") {
 			$("#brandName").after('<p class="text-danger">El nombre de la sede es obligatorio</p>');
@@ -31,15 +31,15 @@ $(document).ready(function() {
 			$("#brandName").closest('.form-group').addClass('has-success');	  	
 		}
 
-		if(brandStatus == "") {
-			$("#brandStatus").after('<p class="text-danger">El estado es obligatorio</p>');
-			$('#brandStatus').closest('.form-group').addClass('has-error');
+		if(brandEstado == "") {
+			$("#brandEstado").after('<p class="text-danger">El estado es obligatorio</p>');
+			$('#brandEstado').closest('.form-group').addClass('has-error');
 		} else {
-			$("#brandStatus").find('.text-danger').remove();
-			$("#brandStatus").closest('.form-group').addClass('has-success');	  	
+			$("#brandEstado").find('.text-danger').remove();
+			$("#brandEstado").closest('.form-group').addClass('has-success');
 		}
 
-		if(brandName && brandStatus) {
+		if(brandName && brandEstado) {
 			var form = $(this);
 			// button loading
 			$("#createBrandBtn").button('loading');
@@ -118,7 +118,7 @@ function editBrands(brandId = null) {
 				// setting the brand name value 
 				$('#editBrandName').val(response.brand_name);
 				// setting the brand status value
-				$('#editBrandStatus').val(response.brand_active);
+				$('#editBrandEstado').val(response.brand_active);
 				// brand id 
 				$(".editBrandFooter").after('<input type="hidden" name="brandId" id="brandId" value="'+response.brand_id+'" />');
 
@@ -131,7 +131,7 @@ function editBrands(brandId = null) {
 					$('.form-group').removeClass('has-error').removeClass('has-success');			
 
 					var brandName = $('#editBrandName').val();
-					var brandStatus = $('#editBrandStatus').val();
+					var brandEstado = $('#editBrandEstado').val();
 
 					if(brandName == "") {
 						$("#editBrandName").after('<p class="text-danger">El nombre de la sede es obligatorio</p>');
@@ -141,15 +141,15 @@ function editBrands(brandId = null) {
 						$("#editBrandName").closest('.form-group').addClass('has-success');	  	
 					}
 
-					if(brandStatus == "") {
-						$("#editBrandStatus").after('<p class="text-danger">El estado es obligatorio</p>');
-						$('#editBrandStatus').closest('.form-group').addClass('has-error');
+					if(brandEstado == "") {
+						$("#editBrandEstado").after('<p class="text-danger">El estado es obligatorio</p>');
+						$('#editBrandEstado').closest('.form-group').addClass('has-error');
 					} else {
-						$("#editBrandStatus").find('.text-danger').remove();
-						$("#editBrandStatus").closest('.form-group').addClass('has-success');	  	
+						$("#editBrandEstado").find('.text-danger').remove();
+						$("#editBrandEstado").closest('.form-group').addClass('has-success');
 					}
 
-					if(brandName && brandStatus) {
+					if(brandName && brandEstado) {
 						var form = $(this);
 
 						// submit btn

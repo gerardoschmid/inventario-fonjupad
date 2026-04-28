@@ -60,10 +60,10 @@
 				    </div>
 	        </div> <!-- /form-group-->	         	        
 	        <div class="form-group">
-			<label for="categoriesStatus" class="col-sm-4 control-label">Estado: </label>
+			<label for="categoriesEstado" class="col-sm-4 control-label">Estado: </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-7">
-				      <select class="form-control" id="categoriesStatus" name="categoriesStatus">
+				      <select class="form-control" id="categoriesEstado" name="categoriesEstado">
 					<option value="">~~SELECCIONAR~~</option>
 					<option value="1">Disponible</option>
 					<option value="2">No Disponible</option>
@@ -112,10 +112,10 @@
 					    </div>
 		        </div> <!-- /form-group-->	         	        
 		        <div class="form-group">
-				<label for="editCategoriesStatus" class="col-sm-4 control-label">Estado: </label>
+				<label for="editCategoriesEstado" class="col-sm-4 control-label">Estado: </label>
 		        	<label class="col-sm-1 control-label">: </label>
 					    <div class="col-sm-7">
-					      <select class="form-control" id="editCategoriesStatus" name="editCategoriesStatus">
+					      <select class="form-control" id="editCategoriesEstado" name="editCategoriesEstado">
 						<option value="">~~SELECCIONAR~~</option>
 						<option value="1">Disponible</option>
 						<option value="2">No Disponible</option>

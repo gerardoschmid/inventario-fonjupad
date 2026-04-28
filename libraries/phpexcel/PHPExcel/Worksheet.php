@@ -256,7 +256,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
     private $_comments = array();
 
     /**
-     * Active cell. (Only one!)
+     * Activo cell. (Only one!)
      *
      * @var string
      */
@@ -1412,7 +1412,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
     public function getStyle($pCellCoordinate = 'A1')
     {
         // set this sheet as active
-        $this->_parent->setActiveSheetIndex($this->_parent->getIndex($this));
+        $this->_parent->setActivoSheetIndex($this->_parent->getIndex($this));
 
         // set cell coordinate as active
         $this->setSelectedCells($pCellCoordinate);
@@ -2280,7 +2280,7 @@ class PHPExcel_Worksheet implements PHPExcel_IComparable
      *
      * @return string Example: 'A1'
      */
-    public function getActiveCell()
+    public function getActivoCell()
     {
         return $this->_activeCell;
     }

@@ -102,7 +102,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
      * Apply styles from array
      *
      * <code>
-     * $objPHPExcel->getActiveSheet()->getStyle('B2')->getLocked()->applyFromArray(
+     * $objPHPExcel->getActivoSheet()->getStyle('B2')->getLocked()->applyFromArray(
      *		array(
      *			'locked' => TRUE,
      *			'hidden' => FALSE
@@ -117,7 +117,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
 	public function applyFromArray($pStyles = NULL) {
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
 				if (isset($pStyles['locked'])) {
 					$this->setLocked($pStyles['locked']);
@@ -153,7 +153,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
     public function setLocked($pValue = self::PROTECTION_INHERIT) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('locked' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_locked = $pValue;
 		}
@@ -181,7 +181,7 @@ class PHPExcel_Style_Protection extends PHPExcel_Style_Supervisor implements PHP
     public function setHidden($pValue = self::PROTECTION_INHERIT) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('hidden' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_hidden = $pValue;
 		}

@@ -1696,12 +1696,12 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
 
 						// keep active sheet index if sheet is still loaded, else first sheet is set as the active
 						if (isset($mapSheetId[$activeTab]) && $mapSheetId[$activeTab] !== null) {
-							$excel->setActiveSheetIndex($mapSheetId[$activeTab]);
+							$excel->setActivoSheetIndex($mapSheetId[$activeTab]);
 						} else {
 							if ($excel->getSheetCount() == 0) {
 								$excel->createSheet();
 							}
-							$excel->setActiveSheetIndex(0);
+							$excel->setActivoSheetIndex(0);
 						}
 					}
 				break;

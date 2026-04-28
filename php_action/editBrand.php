@@ -1,27 +1,31 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
-$valid['success'] = array('success' => false, 'messages' => array());
+$valid = array('success' => false, 'messages' => array());
 
 if($_POST) {	
 
 	$brandName = $_POST['editBrandName'];
-  $brandStatus = $_POST['editBrandStatus']; 
-  $brandId = $_POST['brandId'];
+    $brandEstado = $_POST['editBrandEstado'];
+    $brandId = $_POST['brandId'];
 
-	$sql = "UPDATE brands SET brand_name = '$brandName', brand_active = '$brandStatus' WHERE brand_id = '$brandId'";
-
-	if($connect->query($sql) === TRUE) {
-	 	$valid['success'] = true;
-		$valid['messages'] = "Successfully Updated";	
-	} else {
-	 	$valid['success'] = false;
-	 	$valid['messages'] = "Error while adding the members";
-	}
-	 
-	$connect->close();
+	try {
+        $sql = "UPDATE brands SET brand_name = :brandName, brand_active = :brandEstado WHERE brand_id = :brandId";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':brandName' => $brandName,
+            ':brandEstado' => $brandEstado,
+            ':brandId' => $brandId
+        ]);
+        $valid['success'] = true;
+        $valid['messages'] = "Actualizado correctamente";
+    } catch (PDOException $e) {
+        $valid['success'] = false;
+        $valid['messages'] = "Error al actualizar la sede: " . $e->getMessage();
+    }
 
 	echo json_encode($valid);
  
-} // /if $_POST
+}

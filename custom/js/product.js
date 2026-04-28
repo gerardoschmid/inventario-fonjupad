@@ -69,7 +69,7 @@ $(document).ready(function() {
 			var quantity = $("#quantity").val();
 			var brandName = $("#brandName").val();
 			var categoryName = $("#categoryName").val();
-			var productStatus = $("#productStatus").val();
+			var productEstado = $("#productEstado").val();
             var codigoInterno = $("#codigoInterno").val();
 	
 			if(productName == "") {
@@ -104,15 +104,15 @@ $(document).ready(function() {
 				$("#categoryName").closest('.form-group').addClass('has-success');	  	
 			}
 
-			if(productStatus == "") {
-				$("#productStatus").after('<p class="text-danger">La visibilidad es obligatoria</p>');
-				$('#productStatus').closest('.form-group').addClass('has-error');
+			if(productEstado == "") {
+				$("#productEstado").after('<p class="text-danger">La visibilidad es obligatoria</p>');
+				$('#productEstado').closest('.form-group').addClass('has-error');
 			}	else {
-				$("#productStatus").find('.text-danger').remove();
-				$("#productStatus").closest('.form-group').addClass('has-success');	  	
+				$("#productEstado").find('.text-danger').remove();
+				$("#productEstado").closest('.form-group').addClass('has-success');
 			}
 
-			if(productName && quantity && brandName && categoryName && productStatus) {
+			if(productName && quantity && brandName && categoryName && productEstado) {
 				// submit loading button
 				$("#createProductBtn").button('loading');
 
@@ -217,7 +217,7 @@ function editProduct(productId = null) {
 				$("#editRate").val(response.rate);
 				$("#editBrandName").val(response.brand_id);
 				$("#editCategoryName").val(response.categories_id);
-				$("#editProductStatus").val(response.active);
+				$("#editProductEstado").val(response.active);
 
 				// update the product data function
 				$("#editProductForm").unbind('submit').bind('submit', function() {
@@ -227,7 +227,7 @@ function editProduct(productId = null) {
 					var quantity = $("#editQuantity").val();
 					var brandName = $("#editBrandName").val();
 					var categoryName = $("#editCategoryName").val();
-					var productStatus = $("#editProductStatus").val();
+					var productEstado = $("#editProductEstado").val();
 								
 
 					if(productName == "") {
@@ -262,15 +262,15 @@ function editProduct(productId = null) {
 						$("#editCategoryName").closest('.form-group').addClass('has-success');	  	
 					}
 
-					if(productStatus == "") {
-						$("#editProductStatus").after('<p class="text-danger">La visibilidad es obligatoria</p>');
-						$('#editProductStatus').closest('.form-group').addClass('has-error');
+					if(productEstado == "") {
+						$("#editProductEstado").after('<p class="text-danger">La visibilidad es obligatoria</p>');
+						$('#editProductEstado').closest('.form-group').addClass('has-error');
 					}	else {
-						$("#editProductStatus").find('.text-danger').remove();
-						$("#editProductStatus").closest('.form-group').addClass('has-success');	  	
+						$("#editProductEstado").find('.text-danger').remove();
+						$("#editProductEstado").closest('.form-group').addClass('has-success');
 					}
 
-					if(productName && quantity && brandName && categoryName && productStatus) {
+					if(productName && quantity && brandName && categoryName && productEstado) {
 						// submit loading button
 						$("#editProductBtn").button('loading');
 

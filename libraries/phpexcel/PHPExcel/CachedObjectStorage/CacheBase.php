@@ -340,7 +340,7 @@ abstract class PHPExcel_CachedObjectStorage_CacheBase {
 	 *
 	 * @return	boolean
 	 */
-	public static function cacheMethodIsAvailable() {
+	public static function cacheMethodIsDisponible() {
 		return true;
 	}
 

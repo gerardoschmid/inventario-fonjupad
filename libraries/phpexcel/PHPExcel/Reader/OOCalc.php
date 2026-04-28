@@ -456,13 +456,13 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 //				echo '<h2>Worksheet '.$worksheetDataAttributes['name'].'</h2>';
 				// Create new Worksheet
 				$objPHPExcel->createSheet();
-				$objPHPExcel->setActiveSheetIndex($worksheetID);
+				$objPHPExcel->setActivoSheetIndex($worksheetID);
 				if (isset($worksheetDataAttributes['name'])) {
 					$worksheetName = (string) $worksheetDataAttributes['name'];
 					//	Use false for $updateFormulaCellReferences to prevent adjustment of worksheet references in
 					//		formula cells... during the load, all formulae should be correct, and we're simply
 					//		bringing the worksheet name in line with the formula, not the reverse
-					$objPHPExcel->getActiveSheet()->setTitle($worksheetName,false);
+					$objPHPExcel->getActivoSheet()->setTitle($worksheetName,false);
 				}
 
 				$rowID = 1;
@@ -521,7 +521,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 									}
 									$text = implode("\n",$textArray);
 //									echo $text,'<br />';
-									$objPHPExcel->getActiveSheet()->getComment( $columnID.$rowID )
+									$objPHPExcel->getActivoSheet()->getComment( $columnID.$rowID )
 //																	->setAuthor( $author )
 																	->setText($this->_parseRichText($text) );
 								}
@@ -647,18 +647,18 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 										if ($type !== PHPExcel_Cell_DataType::TYPE_NULL) {
 											for ($rowAdjust = 0; $rowAdjust < $rowRepeats; ++$rowAdjust) {
 												$rID = $rowID + $rowAdjust;
-												$objPHPExcel->getActiveSheet()->getCell($columnID.$rID)->setValueExplicit((($hasCalculatedValue) ? $cellDataFormula : $dataValue),$type);
+												$objPHPExcel->getActivoSheet()->getCell($columnID.$rID)->setValueExplicit((($hasCalculatedValue) ? $cellDataFormula : $dataValue),$type);
 												if ($hasCalculatedValue) {
 //													echo 'Forumla result is '.$dataValue.'<br />';
-													$objPHPExcel->getActiveSheet()->getCell($columnID.$rID)->setCalculatedValue($dataValue);
+													$objPHPExcel->getActivoSheet()->getCell($columnID.$rID)->setCalculatedValue($dataValue);
 												}
 												if ($formatting !== NULL) {
-													$objPHPExcel->getActiveSheet()->getStyle($columnID.$rID)->getNumberFormat()->setFormatCode($formatting);
+													$objPHPExcel->getActivoSheet()->getStyle($columnID.$rID)->getNumberFormat()->setFormatCode($formatting);
 												} else {
-													$objPHPExcel->getActiveSheet()->getStyle($columnID.$rID)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
+													$objPHPExcel->getActivoSheet()->getStyle($columnID.$rID)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_GENERAL);
 												}
 												if ($hyperlink !== NULL) {
-													$objPHPExcel->getActiveSheet()->getCell($columnID.$rID)->getHyperlink()->setUrl($hyperlink);
+													$objPHPExcel->getActivoSheet()->getCell($columnID.$rID)->getHyperlink()->setUrl($hyperlink);
 												}
 											}
 										}
@@ -677,7 +677,7 @@ class PHPExcel_Reader_OOCalc extends PHPExcel_Reader_Abstract implements PHPExce
 											$rowTo = $rowTo + $cellDataTableAttributes['number-rows-spanned'] - 1;
 										}
 										$cellRange = $columnID.$rowID.':'.$columnTo.$rowTo;
-										$objPHPExcel->getActiveSheet()->mergeCells($cellRange);
+										$objPHPExcel->getActivoSheet()->mergeCells($cellRange);
 									}
 								}
 

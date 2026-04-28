@@ -1736,7 +1736,7 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 	 * @var string $hashedsalt_data Hashed salt data
 	 * @var string &$valContext     Set to the MD5 context of the value
 	 * 
-	 * @return bool Success
+	 * @return bool Éxito
 	 */
 	private function _verifyPassword($password, $docid, $salt_data, $hashedsalt_data, &$valContext)
 	{
@@ -4267,9 +4267,9 @@ class PHPExcel_Reader_Excel5 extends PHPExcel_Reader_Abstract implements PHPExce
 		$this->_phpSheet->setRightToLeft((bool)((0x0040 & $options) >> 6));
 
 		// bit: 10; mask: 0x0400; 0 = sheet not active, 1 = sheet active
-		$isActive = (bool) ((0x0400 & $options) >> 10);
-		if ($isActive) {
-			$this->_phpExcel->setActiveSheetIndex($this->_phpExcel->getIndex($this->_phpSheet));
+		$isActivo = (bool) ((0x0400 & $options) >> 10);
+		if ($isActivo) {
+			$this->_phpExcel->setActivoSheetIndex($this->_phpExcel->getIndex($this->_phpSheet));
 		}
 
 		// bit: 11; mask: 0x0800; 0 = normal view, 1 = page break view

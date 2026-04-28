@@ -1,26 +1,29 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
 $sql = "SELECT categories_id, categories_name, categories_active, categories_status FROM categories WHERE categories_status = 1";
-$result = $connect->query($sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll();
 
 $output = array('data' => array());
 
-if($result->num_rows > 0) { 
+if(count($result) > 0) {
 
  // $row = $result->fetch_array();
  $activeCategories = ""; 
 
- while($row = $result->fetch_array()) {
+ foreach($result as $row) {
  	$categoriesId = $row[0];
  	// active 
  	if($row[2] == 1) {
  		// activate member
- 		$activeCategories = "<label class='label label-success'>Available</label>";
+		$activeCategories = "<label class='label label-success'>Disponible</label>";
  	} else {
  		// deactivate member
- 		$activeCategories = "<label class='label label-danger'>Not Available</label>";
+		$activeCategories = "<label class='label label-danger'>Not Disponible</label>";
  	}
 
  	$button = '<!-- Single button -->
@@ -43,6 +46,6 @@ if($result->num_rows > 0) {
 
 }// if num_rows
 
-$connect->close();
+
 
 echo json_encode($output);

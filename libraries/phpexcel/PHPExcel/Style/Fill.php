@@ -141,7 +141,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	 * Apply styles from array
 	 *
 	 * <code>
-	 * $objPHPExcel->getActiveSheet()->getStyle('B2')->getFill()->applyFromArray(
+	 * $objPHPExcel->getActivoSheet()->getStyle('B2')->getFill()->applyFromArray(
 	 *		array(
 	 *			'type'	   => PHPExcel_Style_Fill::FILL_GRADIENT_LINEAR,
 	 *			'rotation'   => 0,
@@ -162,7 +162,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function applyFromArray($pStyles = null) {
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
 				if (array_key_exists('type', $pStyles)) {
 					$this->setFillType($pStyles['type']);
@@ -207,7 +207,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function setFillType($pValue = PHPExcel_Style_Fill::FILL_NONE) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('type' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_fillType = $pValue;
 		}
@@ -235,7 +235,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 	public function setRotation($pValue = 0) {
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('rotation' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_rotation = $pValue;
 		}
@@ -264,7 +264,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStartColor()->getStyleArray(array('argb' => $color->getARGB()));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_startColor = $color;
 		}
@@ -293,7 +293,7 @@ class PHPExcel_Style_Fill extends PHPExcel_Style_Supervisor implements PHPExcel_
 
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getEndColor()->getStyleArray(array('argb' => $color->getARGB()));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_endColor = $color;
 		}

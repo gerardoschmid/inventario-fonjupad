@@ -107,6 +107,6 @@ interface PHPExcel_CachedObjectStorage_ICache
 	 *
 	 * @return	boolean
 	 */
-	public static function cacheMethodIsAvailable();
+	public static function cacheMethodIsDisponible();
 
 }
