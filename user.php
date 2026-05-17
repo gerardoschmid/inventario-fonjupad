@@ -1,196 +1,127 @@
 <?php require_once 'php_action/db_connect.php' ?>
 <?php require_once 'includes/header.php'; ?>
 
-<div class="row">
-	<div class="col-md-12">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+    <div class="flex items-center gap-2">
+        <span class="text-2xl">👤</span>
+        <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-primary">Gestionar Usuarios</h2>
+    </div>
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:bg-primary-container transition-colors group active:scale-95" data-toggle="modal" id="addUserModalBtn" data-target="#addUserModal">
+        <span class="material-symbols-outlined text-lg">person_add</span>
+        <span class="font-label-md text-label-md">+ Añadir Usuario</span>
+    </button>
+</div>
 
-		<ol class="breadcrumb">
-		  <li><a href="dashboard.php">Home</a></li>		  
-		  <li class="active">User</li>
-		</ol>
+<div class="remove-messages"></div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Manage User</div>
-			</div> <!-- /panel-heading -->
-			<div class="panel-body">
+<!-- Table Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden p-6">
+    <table class="w-full text-left border-collapse" id="manageUserTable">
+        <thead>
+            <tr class="bg-surface-container-low">
+                <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Nombre de Usuario</th>
+                <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Opciones</th>
+            </tr>
+        </thead>
+    </table>
+</div>
 
-				<div class="remove-messages"></div>
-
-				<div class="div-action pull pull-right" style="padding-bottom:20px;">
-					<button class="btn btn-default button1" data-toggle="modal" id="addUserModalBtn" data-target="#addUserModal"> <i class="glyphicon glyphicon-plus-sign"></i> Add User </button>
-				</div> <!-- /div-action -->				
-				
-				<table class="table" id="manageUserTable">
-					<thead>
-						<tr>
-							<th style="width:10%;">User Name</th>
-							<th style="width:15%;">Options</th>
-						</tr>
-					</thead>
-				</table>
-				<!-- /table -->
-
-			</div> <!-- /panel-body -->
-		</div> <!-- /panel -->		
-	</div> <!-- /col-md-12 -->
-</div> <!-- /row -->
-
-
-<!-- add user -->
+<!-- Modals -->
+<!-- Add User -->
 <div class="modal fade" id="addUserModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
-
+    <div class="modal-content rounded-xl overflow-hidden border-none shadow-2xl">
     	<form class="form-horizontal" id="submitUserForm" action="php_action/createUser.php" method="POST" enctype="multipart/form-data">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title"><i class="fa fa-plus"></i> Add User</h4>
+	      <div class="modal-header bg-surface-container-low border-b border-outline-variant px-6 py-4">
+	        <button type="button" class="close text-on-surface-variant" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">person_add</span> Añadir Usuario
+            </h4>
 	      </div>
-
-	      <div class="modal-body" style="max-height:450px; overflow:auto;">
-
+	      <div class="modal-body px-6 py-8">
 	      	<div id="add-user-messages"></div>
+	        <div class="space-y-6">
+                <div>
+                    <label for="userName" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Nombre de Usuario</label>
+                    <input type="text" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="userName" placeholder="Nombre de Usuario" name="userName" autocomplete="off">
+                </div>
+                <div>
+                    <label for="upassword" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Contraseña</label>
+                    <input type="password" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="upassword" placeholder="Contraseña" name="upassword" autocomplete="off">
+                </div>
+                <div>
+                    <label for="uemail" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Email</label>
+                    <input type="email" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="uemail" placeholder="Email" name="uemail" autocomplete="off">
+                </div>
+            </div>
+	      </div>
+	      <div class="modal-footer bg-surface-container-low border-t border-outline-variant px-6 py-4">
+	        <button type="button" class="px-6 py-2 text-label-md font-label-md text-outline hover:text-primary transition-colors" data-dismiss="modal">Cerrar</button>
+	        <button type="submit" class="bg-primary text-on-primary px-8 py-2 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary/90 transition-all active:scale-95" id="createUserBtn" data-loading-text="Cargando..." autocomplete="off">Guardar Cambios</button>
+	      </div>
+	</form>
+    </div>
+  </div>
+</div>
 
-	      		     	           	       
-
-	        <div class="form-group">
-	        	<label for="userName" class="col-sm-3 control-label">User Name: </label>
-	        	
-				    <div class="col-sm-8">
-				      <input type="text" class="form-control" id="userName" placeholder="User Name" name="userName" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	    
-
-	        <div class="form-group">
-	        	<label for="upassword" class="col-sm-3 control-label">Password: </label>
-	        	
-				    <div class="col-sm-8">
-				      <input type="password" class="form-control" id="upassword" placeholder="Password" name="upassword" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	        	 
-
-	        <div class="form-group">
-	        	<label for="uemail" class="col-sm-3 control-label">Email: </label>
-	        	
-				    <div class="col-sm-8">
-				      <input type="email" class="form-control" id="uemail" placeholder="Email" name="uemail" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	 
-	        	         	        
-	      </div> <!-- /modal-body -->
-	      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-	        
-	        <button type="submit" class="btn btn-primary" id="createUserBtn" data-loading-text="Loading..." autocomplete="off"> <i class="glyphicon glyphicon-ok-sign"></i> Save Changes</button>
-	      </div> <!-- /modal-footer -->	      
-     	</form> <!-- /.form -->	     
-    </div> <!-- /modal-content -->    
-  </div> <!-- /modal-dailog -->
-</div> 
-<!-- /add categories -->
-
-
-<!-- edit categories brand -->
+<!-- Edit User -->
 <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
-    	    	
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title"><i class="fa fa-edit"></i> Edit User</h4>
+    <div class="modal-content rounded-xl overflow-hidden border-none shadow-2xl">
+	      <div class="modal-header bg-surface-container-low border-b border-outline-variant px-6 py-4">
+	        <button type="button" class="close text-on-surface-variant" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">person_edit</span> Editar Usuario
+            </h4>
 	      </div>
-	      <div class="modal-body" style="max-height:450px; overflow:auto;">
-
-	      	<div class="div-loading">
-	      		<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-						<span class="sr-only">Loading...</span>
+	      <div class="modal-body px-6 py-8">
+		<div class="div-loading flex justify-center py-10">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
 	      	</div>
-
 	      	<div class="div-result">
-
-				  <!-- Nav tabs -->
-				  <ul class="nav nav-tabs" role="tablist">
-				    <li role="presentation" class="active"><a href="#userInfo" aria-controls="profile" role="tab" data-toggle="tab">User Info</a></li>    
-				  </ul>
-
-				  <!-- Tab panes -->
-				  <div class="tab-content">
-
-				  	
-				    
-				    <!-- product image -->
-				    <div role="tabpanel" class="tab-pane active" id="userInfo">
-				    	<form class="form-horizontal" id="editUserForm" action="php_action/editUser.php" method="POST">				    
-				    	<br />
-
-				    	<div id="edit-user-messages"></div>
-
-				    	<div class="form-group">
-			        		<label for="edituserName" class="col-sm-3 control-label">User Name: </label>
-			        	
-						    <div class="col-sm-8">
-						      <input type="text" class="form-control" id="edituserName" placeholder="User Name" name="edituserName" autocomplete="off">
-						    </div>
-			        	</div> <!-- /form-group-->	    
-
-				        <div class="form-group">
-				        	<label for="editPassword" class="col-sm-3 control-label">Password: </label>
-				        	
-							    <div class="col-sm-8">
-							      <input type="password" class="form-control" id="editPassword" placeholder="Password" name="editPassword" autocomplete="off">
-							    </div>
-				        </div> <!-- /form-group-->	        	 
-
-			         
-         	        
-
-			        <div class="modal-footer editUserFooter">
-				        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-				        
-				        <button type="submit" class="btn btn-success" id="editProductBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Save Changes</button>
-				      </div> <!-- /modal-footer -->				     
-			        </form> <!-- /.form -->				     	
-				    </div>    
-				    <!-- /product info -->
-				  </div>
-
-				</div>
-	      	
-	      </div> <!-- /modal-body -->
-	      	      
-     	
+                <form class="space-y-6" id="editUserForm" action="php_action/editUser.php" method="POST">
+                    <div id="edit-user-messages"></div>
+                    <div>
+                        <label for="edituserName" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Nombre de Usuario</label>
+                        <input type="text" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="edituserName" placeholder="Nombre de Usuario" name="edituserName" autocomplete="off">
+                    </div>
+                    <div>
+                        <label for="editPassword" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Contraseña (Dejar en blanco para mantener actual)</label>
+                        <input type="password" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="editPassword" placeholder="Contraseña" name="editPassword" autocomplete="off">
+                    </div>
+                    <div class="modal-footer editUserFooter bg-surface-container-low border-t border-outline-variant px-6 py-4 -mx-6 -mb-8 mt-6">
+                        <button type="button" class="px-6 py-2 text-label-md font-label-md text-outline hover:text-primary transition-colors" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="bg-primary text-on-primary px-8 py-2 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary/90 transition-all active:scale-95" id="editProductBtn" data-loading-text="Cargando...">Guardar Cambios</button>
+                    </div>
+                </form>
+			</div>
+	      </div>
     </div>
-    <!-- /modal-content -->
   </div>
-  <!-- /modal-dailog -->
 </div>
-<!-- /categories brand -->
 
-<!-- categories brand -->
+<!-- Remove User -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeUserModal">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><i class="glyphicon glyphicon-trash"></i> Remove User</h4>
+    <div class="modal-content rounded-xl overflow-hidden border-none shadow-2xl">
+      <div class="modal-header bg-error-container/20 border-b border-outline-variant px-6 py-4">
+        <button type="button" class="close text-on-surface-variant" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title font-headline-sm text-headline-sm text-error flex items-center gap-2">
+            <span class="material-symbols-outlined">person_remove</span> Eliminar Usuario
+        </h4>
       </div>
-      <div class="modal-body">
-
+      <div class="modal-body px-6 py-8 text-center">
       	<div class="removeUserMessages"></div>
-
-        <p>Do you really want to remove ?</p>
+        <p class="text-body-lg font-body-lg text-on-surface">¿Realmente desea eliminar este usuario?</p>
       </div>
-      <div class="modal-footer removeProductFooter">
-        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Close</button>
-        <button type="button" class="btn btn-primary" id="removeProductBtn" data-loading-text="Loading..."> <i class="glyphicon glyphicon-ok-sign"></i> Save changes</button>
+      <div class="modal-footer removeProductFooter bg-surface-container-low border-t border-outline-variant px-6 py-4">
+        <button type="button" class="px-6 py-2 text-label-md font-label-md text-outline hover:text-primary transition-colors" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="bg-error text-on-error px-8 py-2 rounded-lg font-label-md text-label-md shadow-md hover:bg-error/90 transition-all active:scale-95" id="removeProductBtn" data-loading-text="Cargando...">Eliminar Usuario</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- /categories brand -->
-
+    </div>
+  </div>
+</div>
 
 <script src="custom/js/user.js"></script>
 

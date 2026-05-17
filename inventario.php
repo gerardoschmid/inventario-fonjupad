@@ -6,8 +6,10 @@ $controller = new ArticuloController($pdo);
 $filtros_disponibles = $controller->obtenerFiltros();
 
 // Función de escape para XSS
-function e($texto) {
-    return htmlspecialchars($texto ?? '', ENT_QUOTES, 'UTF-8');
+if (!function_exists('e')) {
+    function e($texto) {
+        return htmlspecialchars($texto ?? '', ENT_QUOTES, 'UTF-8');
+    }
 }
 
 $filtros_aplicados = [
@@ -18,127 +20,125 @@ $filtros_aplicados = [
 ];
 
 $inventario = $controller->listarInventario($filtros_aplicados);
-?>
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta Avanzada de Inventario</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        @media print {
-            .no-print {
-                display: none !important;
-            }
-            .table {
-                width: 100% !important;
-                border-collapse: collapse;
-            }
-            .table th, .table td {
-                border: 1px solid #ddd !important;
-                padding: 8px !important;
-            }
-        }
-    </style>
-</head>
-<body class="bg-light">
-    <div class="container-fluid mt-4">
-        <div class="card shadow no-print mb-4">
-            <div class="card-header bg-primary text-white">
-                <h5 class="mb-0">Filtros de Búsqueda</h5>
-            </div>
-            <div class="card-body">
-                <form method="GET" action="inventario.php" class="row g-3">
-                    <div class="col-md-3">
-                        <label for="sede" class="form-label">Sede</label>
-                        <select name="sede" id="sede" class="form-select" onchange="this.form.submit()">
-                            <option value="">Todas las Sedes</option>
-                            <?php foreach ($filtros_disponibles['sedes'] as $sede): ?>
-                                <option value="<?= e($sede) ?>" <?= ($filtros_aplicados['sede'] == $sede) ? 'selected' : '' ?>><?= e($sede) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-3">
-                        <label for="ubicacion" class="form-label">Ubicación</label>
-                        <select name="ubicacion" id="ubicacion" class="form-select" onchange="this.form.submit()">
-                            <option value="">Todas las Ubicaciones</option>
-                            <?php foreach ($filtros_disponibles['ubicaciones'] as $ubicacion): ?>
-                                <option value="<?= e($ubicacion) ?>" <?= ($filtros_aplicados['ubicacion'] == $ubicacion) ? 'selected' : '' ?>><?= e($ubicacion) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="color" class="form-label">Color</label>
-                        <select name="color" id="color" class="form-select" onchange="this.form.submit()">
-                            <option value="">Cualquier Color</option>
-                            <?php foreach ($filtros_disponibles['colores'] as $color): ?>
-                                <option value="<?= e($color) ?>" <?= ($filtros_aplicados['color'] == $color) ? 'selected' : '' ?>><?= e($color) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2">
-                        <label for="forma" class="form-label">Forma</label>
-                        <select name="forma" id="forma" class="form-select" onchange="this.form.submit()">
-                            <option value="">Cualquier Forma</option>
-                            <?php foreach ($filtros_disponibles['formas'] as $forma): ?>
-                                <option value="<?= e($forma) ?>" <?= ($filtros_aplicados['forma'] == $forma) ? 'selected' : '' ?>><?= e($forma) ?></option>
-                            <?php endforeach; ?>
-                        </select>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <div class="btn-group w-100">
-                            <a href="inventario.php" class="btn btn-secondary">Limpiar</a>
-                            <button type="button" class="btn btn-success" onclick="window.print()">Imprimir Reporte</button>
-                        </div>
-                    </div>
-                </form>
-            </div>
-        </div>
 
-        <div class="card shadow">
-            <div class="card-header bg-white d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Resultados del Inventario</h5>
-                <span class="badge bg-info text-dark">Total ítems: <?= count($inventario) ?></span>
-            </div>
-            <div class="card-body p-0">
-                <div class="table-responsive">
-                    <table class="table table-hover table-striped mb-0 align-middle">
-                        <thead class="table-light">
-                            <tr>
-                                <th>Código</th>
-                                <th>Descripción</th>
-                                <th>Marca</th>
-                                <th>Color</th>
-                                <th>Forma</th>
-                                <th class="text-center">Total Cant.</th>
-                                <th>Detalle por Ubicación</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php if (empty($inventario)): ?>
-                                <tr>
-                                    <td colspan="7" class="text-center py-4 text-muted">No se encontraron artículos con los filtros seleccionados.</td>
-                                </tr>
-                            <?php else: ?>
-                                <?php foreach ($inventario as $item): ?>
-                                    <tr>
-                                        <td class="fw-bold text-primary"><?= e($item['codigo_interno']) ?></td>
-                                        <td><?= e($item['nombre']) ?></td>
-                                        <td><?= e($item['marca']) ?: '-' ?></td>
-                                        <td><span class="badge bg-secondary"><?= e($item['color']) ?: 'N/A' ?></span></td>
-                                        <td><?= e($item['forma']) ?: '-' ?></td>
-                                        <td class="text-center fw-bold fs-5"><?= e($item['total_cantidad']) ?></td>
-                                        <td class="small text-muted"><?= $item['detalle_ubicacion'] // Nota: Este campo es seguro ya que se genera internamente con GROUP_CONCAT y nombres de DB sanitizados ?></td>
-                                    </tr>
-                                <?php endforeach; ?>
-                            <?php endif; ?>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+require_once 'includes/header.php';
+?>
+
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-8 no-print">
+    <div>
+        <nav class="flex items-center text-label-md font-label-md text-on-surface-variant mb-base space-x-2">
+            <span>Reportes</span>
+            <span class="material-symbols-outlined text-xs">chevron_right</span>
+            <span class="text-primary">Inventario</span>
+        </nav>
+        <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface">📋 Consulta de Inventario</h2>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+    <div class="flex gap-sm">
+        <a href="inventario.php" class="bg-surface-container-high text-on-surface px-6 py-3 rounded-xl hover:bg-surface-variant transition-all active:scale-95 shadow-sm font-bold">
+            Limpiar Filtros
+        </a>
+        <button onclick="window.print()" class="bg-primary text-on-primary px-6 py-3 rounded-xl hover:opacity-90 transition-all active:scale-95 shadow-md font-bold flex items-center gap-2">
+            <span class="material-symbols-outlined text-sm">print</span> Imprimir Reporte
+        </button>
+    </div>
+</div>
+
+<!-- Filters Panel -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm p-6 mb-8 no-print">
+    <form method="GET" action="inventario.php" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div>
+            <label for="sede" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Sede</label>
+            <select name="sede" id="sede" class="w-full px-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" onchange="this.form.submit()">
+                <option value="">Todas las Sedes</option>
+                <?php foreach ($filtros_disponibles['sedes'] as $sede): ?>
+                    <option value="<?= e($sede) ?>" <?= ($filtros_aplicados['sede'] == $sede) ? 'selected' : '' ?>><?= e($sede) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label for="ubicacion" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Ubicación</label>
+            <select name="ubicacion" id="ubicacion" class="w-full px-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" onchange="this.form.submit()">
+                <option value="">Todas las Ubicaciones</option>
+                <?php foreach ($filtros_disponibles['ubicaciones'] as $ubicacion): ?>
+                    <option value="<?= e($ubicacion) ?>" <?= ($filtros_aplicados['ubicacion'] == $ubicacion) ? 'selected' : '' ?>><?= e($ubicacion) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label for="color" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Color</label>
+            <select name="color" id="color" class="w-full px-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" onchange="this.form.submit()">
+                <option value="">Cualquier Color</option>
+                <?php foreach ($filtros_disponibles['colores'] as $color): ?>
+                    <option value="<?= e($color) ?>" <?= ($filtros_aplicados['color'] == $color) ? 'selected' : '' ?>><?= e($color) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+        <div>
+            <label for="forma" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Forma</label>
+            <select name="forma" id="forma" class="w-full px-4 py-2 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" onchange="this.form.submit()">
+                <option value="">Cualquier Forma</option>
+                <?php foreach ($filtros_disponibles['formas'] as $forma): ?>
+                    <option value="<?= e($forma) ?>" <?= ($filtros_aplicados['forma'] == $forma) ? 'selected' : '' ?>><?= e($forma) ?></option>
+                <?php endforeach; ?>
+            </select>
+        </div>
+    </form>
+</div>
+
+<!-- Results Table -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden">
+    <div class="p-6 border-b border-outline-variant flex justify-between items-center bg-white">
+        <h5 class="font-headline-sm text-headline-sm text-primary">Resultados del Inventario</h5>
+        <span class="px-4 py-1 bg-primary-container text-on-primary-container rounded-full text-label-md font-label-md">Total ítems: <?= count($inventario) ?></span>
+    </div>
+    <div class="overflow-x-auto">
+        <table class="w-full text-left border-collapse">
+            <thead>
+                <tr class="bg-surface-container-low">
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider">Código</th>
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider">Descripción</th>
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider">Marca</th>
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider">Color</th>
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider">Forma</th>
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider text-center">Cant.</th>
+                    <th class="px-6 py-4 text-label-md font-label-md text-outline uppercase tracking-wider">Detalle por Ubicación</th>
+                </tr>
+            </thead>
+            <tbody class="divide-y divide-outline-variant">
+                <?php if (empty($inventario)): ?>
+                    <tr>
+                        <td colspan="7" class="px-6 py-12 text-center text-on-surface-variant font-body-lg italic">No se encontraron artículos con los filtros seleccionados.</td>
+                    </tr>
+                <?php else: ?>
+                    <?php foreach ($inventario as $item): ?>
+                        <tr class="hover:bg-surface-container-low transition-colors">
+                            <td class="px-6 py-4 font-mono font-bold text-primary"><?= e($item['codigo_interno']) ?></td>
+                            <td class="px-6 py-4 font-body-md"><?= e($item['nombre']) ?></td>
+                            <td class="px-6 py-4 font-body-md"><?= e($item['marca']) ?: '-' ?></td>
+                            <td class="px-6 py-4">
+                                <span class="px-3 py-1 bg-surface-container-high rounded-full text-xs font-bold"><?= e($item['color']) ?: 'N/A' ?></span>
+                            </td>
+                            <td class="px-6 py-4 font-body-md"><?= e($item['forma']) ?: '-' ?></td>
+                            <td class="px-6 py-4 text-center font-headline-sm text-headline-sm"><?= e($item['total_cantidad']) ?></td>
+                            <td class="px-6 py-4 text-sm text-on-surface-variant max-w-xs truncate" title="<?= e($item['detalle_ubicacion']) ?>">
+                                <?= e($item['detalle_ubicacion']) ?>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                <?php endif; ?>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<style>
+    @media print {
+        .no-print { display: none !important; }
+        body { padding: 0 !important; margin: 0 !important; background: white !important; }
+        .canvas-bg { background: none !important; }
+        main { padding: 0 !important; max-width: none !important; }
+    }
+</style>
+
+<?php require_once 'includes/footer.php'; ?>
