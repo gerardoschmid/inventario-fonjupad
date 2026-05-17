@@ -1,8 +1,10 @@
-<?php require_once 'php_action/db_connect.php' ?>
-<?php require_once 'includes/header.php'; ?>
+<?php
+require_once 'php_action/db_connect.php';
+require_once 'includes/header.php';
+?>
 
 <!-- Header Section -->
-<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-8">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-md mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
     <div>
         <nav class="flex items-center text-label-md font-label-md text-on-surface-variant mb-base space-x-2">
             <span>Activos</span>
@@ -11,9 +13,9 @@
         </nav>
         <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-on-surface">📦 Inventario de Activos</h2>
     </div>
-    <button class="bg-primary text-on-primary flex items-center justify-center gap-2 px-6 py-3 rounded-xl hover:opacity-90 active:scale-95 transition-transform shadow-md" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal">
-        <span class="material-symbols-outlined text-sm">add</span>
-        <span class="font-bold text-body-md font-body-md">+ Añadir Activo</span>
+    <button class="bg-primary text-on-primary flex items-center justify-center gap-2 px-6 py-3 rounded-xl hover:opacity-90 active:scale-95 transition-all shadow-lg group" data-toggle="modal" id="addProductModalBtn" data-target="#addProductModal">
+        <span class="material-symbols-outlined text-lg">add_box</span>
+        <span class="font-bold text-label-md font-label-md">+ Añadir Activo</span>
     </button>
 </div>
 
@@ -56,7 +58,7 @@
 	      	<div id="add-product-messages"></div>
 	        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <!-- Image Upload -->
-                <div class="md:col-span-2 flex flex-col items-center p-6 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant">
+                <div class="md:col-span-2 flex flex-col items-center p-6 bg-surface-container-low rounded-xl border-2 border-dashed border-outline-variant transition-colors hover:border-primary">
                     <label for="productImage" class="text-label-md font-label-md text-on-surface-variant uppercase mb-4 text-center w-full">Imagen del Activo</label>
                     <div id="kv-avatar-errors-1" class="w-full" style="display:none;"></div>
                     <div class="kv-avatar">
@@ -157,10 +159,10 @@
 				  <!-- Nav tabs -->
 				  <ul class="nav nav-tabs border-b border-outline-variant flex gap-6 mb-8" role="tablist">
 				    <li role="presentation" class="active">
-                        <a href="#photo" aria-controls="home" role="tab" data-toggle="tab" class="pb-2 text-label-md font-label-md uppercase tracking-wider text-outline hover:text-primary transition-colors">Foto</a>
+                        <a href="#photo" aria-controls="home" role="tab" data-toggle="tab" class="pb-2 text-label-md font-label-md uppercase tracking-wider text-outline hover:text-primary transition-colors border-b-2 border-transparent hover:border-outline-variant">Foto</a>
                     </li>
 				    <li role="presentation">
-                        <a href="#productInfo" aria-controls="profile" role="tab" data-toggle="tab" class="pb-2 text-label-md font-label-md uppercase tracking-wider text-outline hover:text-primary transition-colors">Información del Activo</a>
+                        <a href="#productInfo" aria-controls="profile" role="tab" data-toggle="tab" class="pb-2 text-label-md font-label-md uppercase tracking-wider text-outline hover:text-primary transition-colors border-b-2 border-transparent hover:border-outline-variant">Información del Activo</a>
                     </li>
 				  </ul>
 

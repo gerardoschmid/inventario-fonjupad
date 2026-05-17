@@ -31,16 +31,19 @@
 	<script src="assests/plugins/datatables/jquery.dataTables.min.js"></script>
 
 	<script>
-		// Active state highlighting (simple version)
+		// Active state highlighting
 		$(document).ready(function() {
 			var path = window.location.pathname.split("/").pop();
 			if (path == '') path = 'index.php';
 
 			// Desktop Nav
-			$('nav.hidden.md\\:flex a[href="'+path+'"]').addClass('text-primary dark:text-inverse-primary border-b-2 border-primary').removeClass('text-on-surface-variant dark:text-surface-variant');
+			$('nav.hidden.md\\:flex a[href="'+path+'"]').addClass('text-primary dark:text-inverse-primary font-bold border-b-2 border-primary').removeClass('text-on-surface-variant dark:text-surface-variant');
 
 			// Mobile Nav
 			$('nav.md\\:hidden a[href="'+path+'"]').addClass('text-primary dark:text-inverse-primary font-bold').removeClass('text-on-surface-variant dark:text-surface-variant');
+
+            // Adjust material icons for active state
+            $('nav a[href="'+path+'"] .material-symbols-outlined').css('font-variation-settings', "'FILL' 1");
 		});
 	</script>
 

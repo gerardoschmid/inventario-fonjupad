@@ -88,7 +88,7 @@ require_once 'includes/header.php';
 ?>
 
 <!-- Title & Header -->
-<div class="mb-lg">
+<div class="mb-lg animate-in fade-in slide-in-from-top-4 duration-500">
     <div class="flex flex-col md:flex-row md:items-end justify-between gap-md">
         <div>
             <span class="text-label-md font-label-md text-secondary uppercase tracking-widest">Módulo de Carga Local</span>
@@ -102,21 +102,24 @@ require_once 'includes/header.php';
 </div>
 
 <?php if (isset($msg)) { ?>
-    <div class="mb-lg p-lg rounded-xl <?php echo $error_count > 0 ? 'bg-error-container text-on-error-container' : 'bg-tertiary-container text-on-tertiary-container'; ?> border border-outline-variant shadow-sm">
-        <h4 class="font-bold mb-2"><?php echo $msg; ?></h4>
+    <div class="mb-lg p-lg rounded-xl <?php echo $error_count > 0 ? 'bg-error-container text-on-error-container' : 'bg-tertiary-container text-on-tertiary-container'; ?> border border-outline-variant shadow-lg animate-in zoom-in-95 duration-300">
+        <div class="flex items-center gap-md mb-2">
+            <span class="material-symbols-outlined"><?php echo $error_count > 0 ? 'report_problem' : 'check_circle'; ?></span>
+            <h4 class="font-bold"><?php echo $msg; ?></h4>
+        </div>
         <?php if (!empty($errors)) {
-            echo "<ul class='list-disc pl-5 text-sm space-y-1'>";
+            echo "<ul class='list-disc pl-10 text-sm space-y-1'>";
             foreach($errors as $e) echo "<li>$e</li>";
             echo "</ul>";
         } ?>
     </div>
 <?php } ?>
 
-<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter">
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-gutter animate-in fade-in duration-700 delay-200">
     <!-- Uploader Canvas -->
     <section class="lg:col-span-7 space-y-gutter">
         <form action="" method="post" name="upload_excel" enctype="multipart/form-data" id="importForm">
-            <div class="glass-card rounded-xl p-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center min-h-[360px] text-center transition-all duration-300 group cursor-pointer hover:shadow-md" id="drop-zone" onclick="document.getElementById('file-input').click()">
+            <div class="bg-surface-container-lowest rounded-xl p-xl border-2 border-dashed border-outline-variant flex flex-col items-center justify-center min-h-[360px] text-center transition-all duration-300 group cursor-pointer hover:border-primary hover:shadow-xl" id="drop-zone" onclick="document.getElementById('file-input').click()">
                 <div class="w-20 h-20 bg-primary-container/10 rounded-full flex items-center justify-center mb-lg transition-transform group-hover:scale-110">
                     <span class="material-symbols-outlined text-primary text-[48px]">upload_file</span>
                 </div>
@@ -125,21 +128,21 @@ require_once 'includes/header.php';
                 <div class="flex flex-col items-center gap-sm">
                     <span class="text-label-md font-label-md text-secondary italic" id="file-name">Ningún archivo seleccionado</span>
                     <input accept=".csv" class="hidden" id="file-input" name="file" type="file"/>
-                    <button type="button" class="bg-primary text-on-primary px-lg py-md rounded-lg font-label-md text-label-md uppercase tracking-bold shadow-lg hover:bg-primary/90 active:scale-95 transition-all duration-150">
+                    <button type="button" class="bg-primary text-on-primary px-lg py-md rounded-lg font-label-md text-label-md uppercase tracking-bold shadow-lg hover:bg-primary-container active:scale-95 transition-all duration-150">
                         Seleccionar archivo
                     </button>
                 </div>
             </div>
 
             <div class="mt-lg flex justify-center">
-                <button type="submit" name="import" id="submit" class="bg-secondary text-white px-xl py-md rounded-lg font-bold shadow-lg hover:bg-secondary/90 active:scale-95 transition-all hidden">
+                <button type="submit" name="import" id="submit" class="bg-primary text-on-primary px-xl py-md rounded-lg font-bold shadow-lg hover:bg-primary-container active:scale-95 transition-all hidden">
                     Comenzar Importación
                 </button>
             </div>
         </form>
 
         <!-- Status Monitor -->
-        <div class="glass-card rounded-xl p-md flex items-center justify-between border-l-4 border-primary">
+        <div class="bg-surface-container-lowest rounded-xl p-md flex items-center justify-between border-l-4 border-primary shadow-sm">
             <div class="flex items-center gap-md">
                 <div class="relative">
                     <div class="w-3 h-3 bg-tertiary-fixed-dim rounded-full animate-pulse"></div>
@@ -150,21 +153,21 @@ require_once 'includes/header.php';
                     <p class="text-body-md font-body-md text-on-surface-variant">Listo para procesar nuevos activos</p>
                 </div>
             </div>
-            <span class="material-symbols-outlined text-secondary">sync</span>
+            <span class="material-symbols-outlined text-secondary animate-spin-slow">sync</span>
         </div>
     </section>
 
     <!-- Guide Panel -->
     <aside class="lg:col-span-5">
-        <div class="bg-primary-container text-on-primary-container rounded-xl p-lg shadow-xl relative overflow-hidden">
-            <div class="absolute -right-8 -top-8 w-32 h-32 bg-on-primary-container/5 rounded-full"></div>
+        <div class="bg-primary-container text-white rounded-xl p-lg shadow-xl relative overflow-hidden">
+            <div class="absolute -right-8 -top-8 w-32 h-32 bg-white/5 rounded-full"></div>
             <div class="relative z-10">
                 <div class="flex items-center gap-sm mb-lg">
                     <span class="material-symbols-outlined text-[20px]">menu_book</span>
                     <h4 class="text-headline-sm font-headline-sm">Guía: Formato del CSV</h4>
                 </div>
-                <p class="text-body-md font-body-md text-on-primary-container/80 mb-md">
-                    Para una importación exitosa, el archivo debe seguir estrictamente este orden de columnas y utilizar el separador <strong class="text-on-primary font-bold">punto y coma (;)</strong>.
+                <p class="text-body-md font-body-md text-white/80 mb-md">
+                    Para una importación exitosa, el archivo debe seguir estrictamente este orden de columnas y utilizar el separador <strong class="text-tertiary-fixed-dim font-bold">punto y coma (;)</strong>.
                 </p>
                 <div class="bg-black/20 rounded-lg p-md mb-lg border border-white/10 font-mono text-[13px] leading-relaxed break-all select-all hover:bg-black/30 transition-colors">
                     <code class="text-tertiary-fixed-dim">codigo_interno;nombre;color;cantidad;costo;sede_nombre;categoria_nombre;estado;ubicacion</code>
@@ -182,6 +185,9 @@ require_once 'includes/header.php';
                         </div>
                         <p class="text-body-md font-body-md">El campo 'cantidad' debe ser numérico entero.</p>
                     </div>
+                </div>
+                <div class="mt-xl pt-lg border-t border-white/10 flex justify-between items-center">
+                    <span class="text-label-md font-label-md opacity-60 italic">v2.4 Estructura Industrial</span>
                 </div>
             </div>
         </div>
@@ -202,11 +208,15 @@ require_once 'includes/header.php';
                 fileNameDisplay.classList.remove('text-secondary');
                 fileNameDisplay.classList.add('text-primary', 'font-bold');
                 submitBtn.classList.remove('hidden');
+
+                // Visual feedback
+                dropZone.classList.add('border-primary', 'bg-surface-container-low');
             } else {
                 alert('Por favor selecciona un archivo .csv válido');
                 this.value = '';
                 fileNameDisplay.textContent = "Ningún archivo seleccionado";
                 submitBtn.classList.add('hidden');
+                dropZone.classList.remove('border-primary', 'bg-surface-container-low');
             }
         }
     });
@@ -220,11 +230,11 @@ require_once 'includes/header.php';
     });
 
     ['dragenter', 'dragover'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => dropZone.classList.add('bg-surface-container-high'), false);
+        dropZone.addEventListener(eventName, () => dropZone.classList.add('bg-surface-container-high', 'border-primary'), false);
     });
 
     ['dragleave', 'drop'].forEach(eventName => {
-        dropZone.addEventListener(eventName, () => dropZone.classList.remove('bg-surface-container-high'), false);
+        dropZone.addEventListener(eventName, () => dropZone.classList.remove('bg-surface-container-high', 'border-primary'), false);
     });
 
     dropZone.addEventListener('drop', e => {
