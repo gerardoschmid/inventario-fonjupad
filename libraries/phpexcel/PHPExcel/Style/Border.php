@@ -178,7 +178,7 @@ class PHPExcel_Style_Border extends PHPExcel_Style_Supervisor implements PHPExce
 	 * Apply styles from array
 	 *
 	 * <code>
-	 * $objPHPExcel->getActiveSheet()->getStyle('B2')->getBorders()->getTop()->applyFromArray(
+	 * $objPHPExcel->getActivoSheet()->getStyle('B2')->getBorders()->getTop()->applyFromArray(
 	 *		array(
 	 *			'style' => PHPExcel_Style_Border::BORDER_DASHDOT,
 	 *			'color' => array(
@@ -195,7 +195,7 @@ class PHPExcel_Style_Border extends PHPExcel_Style_Supervisor implements PHPExce
 	public function applyFromArray($pStyles = null) {
 		if (is_array($pStyles)) {
 			if ($this->_isSupervisor) {
-				$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
+				$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($this->getStyleArray($pStyles));
 			} else {
 				if (isset($pStyles['style'])) {
 					$this->setBorderStyle($pStyles['style']);
@@ -239,7 +239,7 @@ class PHPExcel_Style_Border extends PHPExcel_Style_Supervisor implements PHPExce
 		}
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getStyleArray(array('style' => $pValue));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_borderStyle = $pValue;
 		}
@@ -268,7 +268,7 @@ class PHPExcel_Style_Border extends PHPExcel_Style_Supervisor implements PHPExce
 
 		if ($this->_isSupervisor) {
 			$styleArray = $this->getColor()->getStyleArray(array('argb' => $color->getARGB()));
-			$this->getActiveSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
+			$this->getActivoSheet()->getStyle($this->getSelectedCells())->applyFromArray($styleArray);
 		} else {
 			$this->_color = $color;
 		}

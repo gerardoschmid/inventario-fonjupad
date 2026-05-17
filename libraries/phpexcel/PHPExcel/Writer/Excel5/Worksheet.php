@@ -1307,7 +1307,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 		$fDspGuts	   = $this->_outline_on;	// 7
 		$fFrozenNoSplit = 0;					 // 0 - bit
 		// no support in PHPExcel for selected sheet, therefore sheet is only selected if it is the active sheet
-		$fSelected	  = ($this->_phpSheet === $this->_phpSheet->getParent()->getActiveSheet()) ? 1 : 0;
+		$fSelected	  = ($this->_phpSheet === $this->_phpSheet->getParent()->getActivoSheet()) ? 1 : 0;
 		$fPaged		 = 1;					 // 2
 		$fPageBreakPreview = $this->_phpSheet->getSheetView()->getView() === PHPExcel_Worksheet_SheetView::SHEETVIEW_PAGE_BREAK_PREVIEW;
 
@@ -1468,9 +1468,9 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 		$length   = 0x000F;				  // Number of bytes to follow
 
 		$pnn	  = $this->_active_pane;	 // Pane position
-		$rwAct	= $rwFirst;				// Active row
-		$colAct   = $colFirst;			   // Active column
-		$irefAct  = 0;					   // Active cell ref
+		$rwAct	= $rwFirst;				// Activo row
+		$colAct   = $colFirst;			   // Activo column
+		$irefAct  = 0;					   // Activo cell ref
 		$cref	 = 1;					   // Number of refs
 
 		if (!isset($rwLast)) {
@@ -1745,7 +1745,7 @@ class PHPExcel_Writer_Excel5_Worksheet extends PHPExcel_Writer_Excel5_BIFFwriter
 		$x	   = isset($panes[1]) ? $panes[1] : null;
 		$rwTop   = isset($panes[2]) ? $panes[2] : null;
 		$colLeft = isset($panes[3]) ? $panes[3] : null;
-		if (count($panes) > 4) { // if Active pane was received
+		if (count($panes) > 4) { // if Activo pane was received
 			$pnnAct = $panes[4];
 		} else {
 			$pnnAct = null;

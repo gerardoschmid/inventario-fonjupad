@@ -549,13 +549,13 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 //
 			// Create new Worksheet
 			$objPHPExcel->createSheet();
-			$objPHPExcel->setActiveSheetIndex($worksheetID);
+			$objPHPExcel->setActivoSheetIndex($worksheetID);
 			if (isset($worksheet_ss['Name'])) {
 				$worksheetName = self::_convertStringEncoding((string) $worksheet_ss['Name'],$this->_charSet);
 				//	Use false for $updateFormulaCellReferences to prevent adjustment of worksheet references in
 				//		formula cells... during the load, all formulae should be correct, and we're simply bringing
 				//		the worksheet name in line with the formula, not the reverse
-				$objPHPExcel->getActiveSheet()->setTitle($worksheetName,false);
+				$objPHPExcel->getActivoSheet()->setTitle($worksheetName,false);
 			}
 
 			$columnID = 'A';
@@ -568,7 +568,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 					if (isset($columnData_ss['Width'])) {
 						$columnWidth = $columnData_ss['Width'];
 //						echo '<b>Setting column width for '.$columnID.' to '.$columnWidth.'</b><br />';
-						$objPHPExcel->getActiveSheet()->getColumnDimension($columnID)->setWidth($columnWidth / 5.4);
+						$objPHPExcel->getActivoSheet()->getColumnDimension($columnID)->setWidth($columnWidth / 5.4);
 					}
 					++$columnID;
 				}
@@ -609,7 +609,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 								$rowTo = $rowTo + $cell_ss['MergeDown'];
 							}
 							$cellRange .= ':'.$columnTo.$rowTo;
-							$objPHPExcel->getActiveSheet()->mergeCells($cellRange);
+							$objPHPExcel->getActivoSheet()->mergeCells($cellRange);
 						}
 
 						$cellIsSet = $hasCalculatedValue = false;
@@ -719,10 +719,10 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 
 //							echo 'Cell '.$columnID.$rowID.' is a '.$type.' with a value of '.(($hasCalculatedValue) ? $cellDataFormula : $cellValue).'<br />';
 //
-							$objPHPExcel->getActiveSheet()->getCell($columnID.$rowID)->setValueExplicit((($hasCalculatedValue) ? $cellDataFormula : $cellValue),$type);
+							$objPHPExcel->getActivoSheet()->getCell($columnID.$rowID)->setValueExplicit((($hasCalculatedValue) ? $cellDataFormula : $cellValue),$type);
 							if ($hasCalculatedValue) {
 //								echo 'Formula result is '.$cellValue.'<br />';
-								$objPHPExcel->getActiveSheet()->getCell($columnID.$rowID)->setCalculatedValue($cellValue);
+								$objPHPExcel->getActivoSheet()->getCell($columnID.$rowID)->setCalculatedValue($cellValue);
 							}
 							$cellIsSet = $rowHasData = true;
 						}
@@ -740,7 +740,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 //							echo $annotation,'<br />';
 							$annotation = strip_tags($node);
 //							echo 'Annotation: ',$annotation,'<br />';
-							$objPHPExcel->getActiveSheet()->getComment( $columnID.$rowID )
+							$objPHPExcel->getActivoSheet()->getComment( $columnID.$rowID )
 															->setAuthor(self::_convertStringEncoding($author ,$this->_charSet))
 															->setText($this->_parseRichText($annotation) );
 						}
@@ -752,10 +752,10 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 //								echo 'Cell '.$columnID.$rowID.'<br />';
 //								print_r($this->_styles[$style]);
 //								echo '<br />';
-								if (!$objPHPExcel->getActiveSheet()->cellExists($columnID.$rowID)) {
-									$objPHPExcel->getActiveSheet()->getCell($columnID.$rowID)->setValue(NULL);
+								if (!$objPHPExcel->getActivoSheet()->cellExists($columnID.$rowID)) {
+									$objPHPExcel->getActivoSheet()->getCell($columnID.$rowID)->setValue(NULL);
 								}
-								$objPHPExcel->getActiveSheet()->getStyle($cellRange)->applyFromArray($this->_styles[$style]);
+								$objPHPExcel->getActivoSheet()->getStyle($cellRange)->applyFromArray($this->_styles[$style]);
 							}
 						}
 						++$columnID;
@@ -768,7 +768,7 @@ class PHPExcel_Reader_Excel2003XML extends PHPExcel_Reader_Abstract implements P
 						if (isset($row_ss['Height'])) {
 							$rowHeight = $row_ss['Height'];
 //							echo '<b>Setting row height to '.$rowHeight.'</b><br />';
-							$objPHPExcel->getActiveSheet()->getRowDimension($rowID)->setRowHeight($rowHeight);
+							$objPHPExcel->getActivoSheet()->getRowDimension($rowID)->setRowHeight($rowHeight);
 						}
 					}
 

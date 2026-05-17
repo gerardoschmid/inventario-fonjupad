@@ -1,27 +1,29 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
-$valid['success'] = array('success' => false, 'messages' => array());
+$valid = array('success' => false, 'messages' => array());
 
 if($_POST) {	
 
 	$brandName = $_POST['brandName'];
-  $brandStatus = $_POST['brandStatus']; 
+    $brandEstado = $_POST['brandEstado'];
 
-	$sql = "INSERT INTO brands (brand_name, brand_active, brand_status) VALUES ('$brandName', '$brandStatus', 1)";
-
-	if($connect->query($sql) === TRUE) {
-	 	$valid['success'] = true;
-		$valid['messages'] = "Successfully Added";	
-	} else {
-	 	$valid['success'] = false;
-	 	$valid['messages'] = "Error while adding the members";
-	}
-	 
-
-	$connect->close();
+	try {
+        $sql = "INSERT INTO brands (brand_name, brand_active, brand_status) VALUES (:brandName, :brandEstado, 1)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':brandName' => $brandName,
+            ':brandEstado' => $brandEstado
+        ]);
+        $valid['success'] = true;
+        $valid['messages'] = "Agregado correctamente";
+    } catch (PDOException $e) {
+        $valid['success'] = false;
+        $valid['messages'] = "Error al agregar la sede: " . $e->getMessage();
+    }
 
 	echo json_encode($valid);
  
-} // /if $_POST
+}

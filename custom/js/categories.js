@@ -25,7 +25,7 @@ $(document).ready(function() {
 		$("#submitCategoriesForm").unbind('submit').bind('submit', function() {
 
 			var categoriesName = $("#categoriesName").val();
-			var categoriesStatus = $("#categoriesStatus").val();
+			var categoriesEstado = $("#categoriesEstado").val();
 
 			if(categoriesName == "") {
 				$("#categoriesName").after('<p class="text-danger">El nombre de la categoría es obligatorio</p>');
@@ -35,15 +35,15 @@ $(document).ready(function() {
 				$("#categoriesName").closest('.form-group').addClass('has-success');	  	
 			}
 
-			if(categoriesStatus == "") {
-				$("#categoriesStatus").after('<p class="text-danger">El estado es obligatorio</p>');
-				$('#categoriesStatus').closest('.form-group').addClass('has-error');
+			if(categoriesEstado == "") {
+				$("#categoriesEstado").after('<p class="text-danger">El estado es obligatorio</p>');
+				$('#categoriesEstado').closest('.form-group').addClass('has-error');
 			} else {
-				$("#categoriesStatus").find('.text-danger').remove();
-				$("#categoriesStatus").closest('.form-group').addClass('has-success');	  	
+				$("#categoriesEstado").find('.text-danger').remove();
+				$("#categoriesEstado").closest('.form-group').addClass('has-success');
 			}
 
-			if(categoriesName && categoriesStatus) {
+			if(categoriesName && categoriesEstado) {
 				var form = $(this);
 				// button loading
 				$("#createCategoriesBtn").button('loading');
@@ -128,7 +128,7 @@ function editCategories(categoriesId = null) {
 				// set the categories name
 				$("#editCategoriesName").val(response.categories_name);
 				// set the categories status
-				$("#editCategoriesStatus").val(response.categories_active);
+				$("#editCategoriesEstado").val(response.categories_active);
 				// add the categories id 
 				$(".editCategoriesFooter").after('<input type="hidden" name="editCategoriesId" id="editCategoriesId" value="'+response.categories_id+'" />');
 
@@ -136,7 +136,7 @@ function editCategories(categoriesId = null) {
 				// submit of edit categories form
 				$("#editCategoriesForm").unbind('submit').bind('submit', function() {
 					var categoriesName = $("#editCategoriesName").val();
-					var categoriesStatus = $("#editCategoriesStatus").val();
+					var categoriesEstado = $("#editCategoriesEstado").val();
 
 					if(categoriesName == "") {
 						$("#editCategoriesName").after('<p class="text-danger">El nombre de la categoría es obligatorio</p>');
@@ -146,15 +146,15 @@ function editCategories(categoriesId = null) {
 						$("#editCategoriesName").closest('.form-group').addClass('has-success');	  	
 					}
 
-					if(categoriesStatus == "") {
-						$("#editCategoriesStatus").after('<p class="text-danger">El estado es obligatorio</p>');
-						$('#editCategoriesStatus').closest('.form-group').addClass('has-error');
+					if(categoriesEstado == "") {
+						$("#editCategoriesEstado").after('<p class="text-danger">El estado es obligatorio</p>');
+						$('#editCategoriesEstado').closest('.form-group').addClass('has-error');
 					} else {
-						$("#editCategoriesStatus").find('.text-danger').remove();
-						$("#editCategoriesStatus").closest('.form-group').addClass('has-success');	  	
+						$("#editCategoriesEstado").find('.text-danger').remove();
+						$("#editCategoriesEstado").closest('.form-group').addClass('has-success');
 					}
 
-					if(categoriesName && categoriesStatus) {
+					if(categoriesName && categoriesEstado) {
 						var form = $(this);
 						// button loading
 						$("#editCategoriesBtn").button('loading');

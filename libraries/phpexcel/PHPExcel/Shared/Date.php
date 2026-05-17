@@ -86,7 +86,7 @@ class PHPExcel_Shared_Date
 	 * Set the Excel calendar (Windows 1900 or Mac 1904)
 	 *
 	 * @param	 integer	$baseDate			Excel base date (1900 or 1904)
-	 * @return	 boolean						Success or failure
+	 * @return	 boolean						Éxito or failure
 	 */
 	public static function setExcelCalendar($baseDate) {
 		if (($baseDate == self::CALENDAR_WINDOWS_1900) ||

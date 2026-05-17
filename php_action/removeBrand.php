@@ -1,26 +1,25 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
+$valid = array('success' => false, 'messages' => array());
 
-$valid['success'] = array('success' => false, 'messages' => array());
+if($_POST) {
 
-$brandId = $_POST['brandId'];
+	$brandId = $_POST['brandId'];
 
-if($brandId) { 
+	try {
+        $sql = "UPDATE brands SET brand_status = 2 WHERE brand_id = :brandId";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([':brandId' => $brandId]);
+        $valid['success'] = true;
+        $valid['messages'] = "Eliminado correctamente";
+    } catch (PDOException $e) {
+        $valid['success'] = false;
+        $valid['messages'] = "Error al eliminar: " . $e->getMessage();
+    }
 
- $sql = "UPDATE brands SET brand_status = 2 WHERE brand_id = {$brandId}";
-
- if($connect->query($sql) === TRUE) {
- 	$valid['success'] = true;
-	$valid['messages'] = "Successfully Removed";		
- } else {
- 	$valid['success'] = false;
- 	$valid['messages'] = "Error while remove the brand";
- }
+	echo json_encode($valid);
  
- $connect->close();
-
- echo json_encode($valid);
- 
-} // /if $_POST
+}

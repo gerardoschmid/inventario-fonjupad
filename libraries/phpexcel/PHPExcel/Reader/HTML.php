@@ -419,7 +419,7 @@ class PHPExcel_Reader_HTML extends PHPExcel_Reader_Abstract implements PHPExcel_
 		while ($objPHPExcel->getSheetCount() <= $this->_sheetIndex) {
 			$objPHPExcel->createSheet();
 		}
-		$objPHPExcel->setActiveSheetIndex( $this->_sheetIndex );
+		$objPHPExcel->setActivoSheetIndex( $this->_sheetIndex );
 
 		//	Create a new DOM object
 		$dom = new domDocument;
@@ -436,7 +436,7 @@ class PHPExcel_Reader_HTML extends PHPExcel_Reader_Abstract implements PHPExcel_
 		$row = 0;
 		$column = 'A';
 		$content = '';
-		$this->_processDomElement($dom,$objPHPExcel->getActiveSheet(),$row,$column,$content);
+		$this->_processDomElement($dom,$objPHPExcel->getActivoSheet(),$row,$column,$content);
 
 //		echo '<hr />';
 //		var_dump($this->_dataArray);

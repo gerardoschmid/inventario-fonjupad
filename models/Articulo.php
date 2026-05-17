@@ -7,7 +7,7 @@ class Articulo {
     }
 
     public function obtenerTodo($filtros = []) {
-        $sql = "SELECT a.*, e.cantidad_actual, e.estado_conservacion, u.nombre_ubicacion, s.nombre_sede 
+        $sql = "SELECT a.*, e.cantidad_actual, e.estado_conservacion, u.nombre_ubicacion, s.nombre_sede
                 FROM articulos a
                 JOIN inventario_existencias e ON a.id_articulo = e.id_articulo
                 JOIN ubicaciones u ON e.id_ubicacion = u.id_ubicacion

@@ -141,7 +141,7 @@ class PHPExcel_CachedObjectStorage_Igbinary extends PHPExcel_CachedObjectStorage
 	 *
 	 * @return	boolean
 	 */
-	public static function cacheMethodIsAvailable() {
+	public static function cacheMethodIsDisponible() {
 		if (!function_exists('igbinary_serialize')) {
 			return false;
 		}

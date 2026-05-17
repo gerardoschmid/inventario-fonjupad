@@ -25,13 +25,14 @@
 					<thead>
 						<tr>
 							<th style="width:10%;">Imagen</th>
-							<th>Código</th>
-							<th>Activo</th>
-							<th>Color</th>
-							<th>Cantidad</th>
+							<th>Código Interno</th>
+							<th>Nombre</th>
 							<th>Sede</th>
-							<th>Tipo de Activo</th>
+							<th>Categoría</th>
+							<th>Color</th>
 							<th>Ubicación</th>
+							<th>Estado</th>
+							<th>Cantidad</th>
 							<th style="width:15%;">Opciones</th>
 						</tr>
 					</thead>
@@ -155,10 +156,10 @@
 	        </div> <!-- /form-group-->					        	         	       
 
 	        <div class="form-group">
-			<label for="productStatus" class="col-sm-3 control-label">Visibilidad: </label>
+			<label for="productEstado" class="col-sm-3 control-label">Visibilidad: </label>
 	        	<label class="col-sm-1 control-label">: </label>
 				    <div class="col-sm-8">
-				      <select class="form-control" id="productStatus" name="productStatus">
+				      <select class="form-control" id="productEstado" name="productEstado">
 					<option value="">~~SELECCIONAR~~</option>
 					<option value="1">Disponible</option>
 					<option value="2">No Disponible</option>
@@ -332,10 +333,10 @@
 			        </div> <!-- /form-group-->					        	         	       
 
 			        <div class="form-group">
-					<label for="editProductStatus" class="col-sm-3 control-label">Visibilidad: </label>
+					<label for="editProductEstado" class="col-sm-3 control-label">Visibilidad: </label>
 			        	<label class="col-sm-1 control-label">: </label>
 						    <div class="col-sm-8">
-						      <select class="form-control" id="editProductStatus" name="editProductStatus">
+						      <select class="form-control" id="editProductEstado" name="editProductEstado">
 							<option value="">~~SELECCIONAR~~</option>
 							<option value="1">Disponible</option>
 							<option value="2">No Disponible</option>

@@ -1,16 +1,17 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
-$userid = $_POST['userid'];
+$userId = $_POST['userId'];
 
-$sql = "SELECT * FROM users WHERE user_id = $userid";
-$result = $connect->query($sql);
+try {
+    $sql = "SELECT user_id, username, password, email FROM users WHERE user_id = :userId";
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute([':userId' => $userId]);
+    $row = $stmt->fetch(PDO::FETCH_ASSOC);
 
-if($result->num_rows > 0) { 
- $row = $result->fetch_array();
-} // if num_rows
-
-$connect->close();
-
-echo json_encode($row);
+    echo json_encode($row);
+} catch (PDOException $e) {
+    echo json_encode(['error' => $e->getMessage()]);
+}

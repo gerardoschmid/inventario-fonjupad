@@ -1846,7 +1846,7 @@ class PHPExcel_Calculation {
 	 *
 	 * @access	public
 	 * @param	 string	$returnType			Array return type
-	 * @return	 boolean					Success or failure
+	 * @return	 boolean					Éxito or failure
 	 */
 	public static function setArrayReturnType($returnType) {
 		if (($returnType == self::RETURN_ARRAY_AS_VALUE) ||

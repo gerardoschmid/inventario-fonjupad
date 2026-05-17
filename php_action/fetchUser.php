@@ -3,18 +3,21 @@
 
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
 $sql = "SELECT * FROM users";
 
-$result = $connect->query($sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll();
 
 $output = array('data' => array());
-if($result->num_rows > 0) { 
+if(count($result) > 0) {
 
  // $row = $result->fetch_array();
  $active = ""; 
 
- while($row = $result->fetch_array()) {
+ foreach($result as $row) {
  	$userid = $row[0];
  	// active 
  	$username = $row[1];
@@ -42,6 +45,6 @@ if($result->num_rows > 0) {
 
 }// if num_rows
 
-$connect->close();
+
 
 echo json_encode($output);

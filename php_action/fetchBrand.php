@@ -1,26 +1,29 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
 $sql = "SELECT brand_id, brand_name, brand_active, brand_status FROM brands WHERE brand_status = 1";
-$result = $connect->query($sql);
+$stmt = $pdo->prepare($sql);
+$stmt->execute();
+$result = $stmt->fetchAll();
 
 $output = array('data' => array());
 
-if($result->num_rows > 0) { 
+if(count($result) > 0) {
 
  // $row = $result->fetch_array();
  $activeBrands = ""; 
 
- while($row = $result->fetch_array()) {
+ foreach($result as $row) {
  	$brandId = $row[0];
  	// active 
  	if($row[2] == 1) {
  		// activate member
- 		$activeBrands = "<label class='label label-success'>Available</label>";
+		$activeBrands = "<label class='label label-success'>Disponible</label>";
  	} else {
  		// deactivate member
- 		$activeBrands = "<label class='label label-danger'>Not Available</label>";
+		$activeBrands = "<label class='label label-danger'>Not Disponible</label>";
  	}
 
  	$button = '<!-- Single button -->
@@ -43,6 +46,6 @@ if($result->num_rows > 0) {
 
 } // if num_rows
 
-$connect->close();
+
 
 echo json_encode($output);

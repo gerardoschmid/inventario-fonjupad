@@ -18,7 +18,7 @@ $options = [
 try {
     $pdo = new PDO($dsn, $user, $pass, $options);
     // Si necesitas verificar la conexión, puedes descomentar la línea de abajo:
-    // echo "Conexión exitosa"; 
+    // echo "Conexión exitosa";
 } catch (\PDOException $e) {
     // Si hay un error, detiene la ejecución y te muestra qué pasó
     die("Error al conectar a la base de datos: " . $e->getMessage());

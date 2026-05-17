@@ -906,7 +906,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 
 		// not supported by PHPExcel, set to 0
 		$itabFirst = 0;     // 1st displayed worksheet
-		$itabCur   = $this->_phpExcel->getActiveSheetIndex();    // Active worksheet
+		$itabCur   = $this->_phpExcel->getActivoSheetIndex();    // Activo worksheet
 
 		$header    = pack("vv",        $record, $length);
 		$data      = pack("vvvvvvvvv", $xWn, $yWn, $dxWn, $dyWn,
@@ -1102,7 +1102,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$cchCustMenu     = 0x00;         // Length of cust menu text
 		$cchDescription  = 0x00;         // Length of description text
 		$cchHelptopic    = 0x00;         // Length of help topic text
-		$cchStatustext   = 0x00;         // Length of status bar text
+		$cchEstadotext   = 0x00;         // Length of status bar text
 		$rgch            = $type;        // Built-in name type
 
 		$unknown03       = 0x3b;
@@ -1122,7 +1122,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$data              .= pack("C", $cchCustMenu);
 		$data              .= pack("C", $cchDescription);
 		$data              .= pack("C", $cchHelptopic);
-		$data              .= pack("C", $cchStatustext);
+		$data              .= pack("C", $cchEstadotext);
 		$data              .= pack("C", $rgch);
 		$data              .= pack("C", $unknown03);
 		$data              .= pack("v", $unknown04);
@@ -1165,7 +1165,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$cchCustMenu     = 0x00;         // Length of cust menu text
 		$cchDescription  = 0x00;         // Length of description text
 		$cchHelptopic    = 0x00;         // Length of help topic text
-		$cchStatustext   = 0x00;         // Length of status bar text
+		$cchEstadotext   = 0x00;         // Length of status bar text
 		$rgch            = $type;        // Built-in name type
 
 		$unknown01       = 0x29;
@@ -1187,7 +1187,7 @@ class PHPExcel_Writer_Excel5_Workbook extends PHPExcel_Writer_Excel5_BIFFwriter
 		$data              .= pack("C", $cchCustMenu);
 		$data              .= pack("C", $cchDescription);
 		$data              .= pack("C", $cchHelptopic);
-		$data              .= pack("C", $cchStatustext);
+		$data              .= pack("C", $cchEstadotext);
 		$data              .= pack("C", $rgch);
 		$data              .= pack("C", $unknown01);
 		$data              .= pack("v", $unknown02);

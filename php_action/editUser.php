@@ -1,28 +1,31 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
-$valid['success'] = array('success' => false, 'messages' => array());
+$valid = array('success' => false, 'messages' => array());
 
 if($_POST) {
-	$edituserName = $_POST['edituserName'];
-	$editPassword 		= md5($_POST['editPassword']);
-	$userid 		= $_POST['userid'];
 
-				
-	$sql = "UPDATE users SET username = '$edituserName', password = '$editPassword' WHERE user_id = $userid ";
+	$username = $_POST['editUserName'];
+    $email = $_POST['editUemail'];
+    $userId = $_POST['userId'];
 
-	if($connect->query($sql) === TRUE) {
-		$valid['success'] = true;
-		$valid['messages'] = "Successfully Update";	
-	} else {
-		$valid['success'] = false;
-		$valid['messages'] = "Error while updating product info";
-	}
+	try {
+        $sql = "UPDATE users SET username = :username, email = :email WHERE user_id = :userId";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':username' => $username,
+            ':email' => $email,
+            ':userId' => $userId
+        ]);
+        $valid['success'] = true;
+        $valid['messages'] = "Actualizado correctamente";
+    } catch (PDOException $e) {
+        $valid['success'] = false;
+        $valid['messages'] = "Error al actualizar usuario: " . $e->getMessage();
+    }
 
-} // /$_POST
-	 
-$connect->close();
-
-echo json_encode($valid);
+	echo json_encode($valid);
  
+}

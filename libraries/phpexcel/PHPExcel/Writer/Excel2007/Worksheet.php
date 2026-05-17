@@ -212,7 +212,7 @@ class PHPExcel_Writer_Excel2007_Worksheet extends PHPExcel_Writer_Excel2007_Writ
 
 			// Sheet selected?
 			$sheetSelected = false;
-			if ($this->getParentWriter()->getPHPExcel()->getIndex($pSheet) == $this->getParentWriter()->getPHPExcel()->getActiveSheetIndex())
+			if ($this->getParentWriter()->getPHPExcel()->getIndex($pSheet) == $this->getParentWriter()->getPHPExcel()->getActivoSheetIndex())
 				$sheetSelected = true;
 
 
@@ -253,7 +253,7 @@ class PHPExcel_Writer_Excel2007_Worksheet extends PHPExcel_Writer_Excel2007_Writ
 					$objWriter->writeAttribute('rightToLeft',	'true');
 				}
 
-				$activeCell = $pSheet->getActiveCell();
+				$activeCell = $pSheet->getActivoCell();
 
 				// Pane
 				$pane = '';

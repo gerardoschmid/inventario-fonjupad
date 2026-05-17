@@ -141,7 +141,7 @@ class PHPExcel_Writer_Excel2007_Workbook extends PHPExcel_Writer_Excel2007_Write
 			// workbookView
 			$objWriter->startElement('workbookView');
 
-			$objWriter->writeAttribute('activeTab', $pPHPExcel->getActiveSheetIndex());
+			$objWriter->writeAttribute('activeTab', $pPHPExcel->getActivoSheetIndex());
 			$objWriter->writeAttribute('autoFilterDateGrouping', '1');
 			$objWriter->writeAttribute('firstSheet', '0');
 			$objWriter->writeAttribute('minimized', '0');

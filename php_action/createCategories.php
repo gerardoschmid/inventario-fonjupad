@@ -1,27 +1,30 @@
 <?php 	
 
 require_once 'core.php';
+require_once 'db_connect_pdo.php';
 
-$valid['success'] = array('success' => false, 'messages' => array());
+$valid = array('success' => false, 'messages' => array());
 
 if($_POST) {	
 
 	$categoriesName = $_POST['categoriesName'];
-  $categoriesStatus = $_POST['categoriesStatus']; 
+    $categoriesEstado = $_POST['categoriesEstado'];
 
-	$sql = "INSERT INTO categories (categories_name, categories_active, categories_status) 
-	VALUES ('$categoriesName', '$categoriesStatus', 1)";
-
-	if($connect->query($sql) === TRUE) {
-	 	$valid['success'] = true;
-		$valid['messages'] = "Successfully Added";	
-	} else {
-	 	$valid['success'] = false;
-	 	$valid['messages'] = "Error while adding the members";
-	}
-
-	$connect->close();
+	try {
+        $sql = "INSERT INTO categories (categories_name, categories_active, categories_status)
+                VALUES (:categoriesName, :categoriesEstado, 1)";
+        $stmt = $pdo->prepare($sql);
+        $stmt->execute([
+            ':categoriesName' => $categoriesName,
+            ':categoriesEstado' => $categoriesEstado
+        ]);
+        $valid['success'] = true;
+        $valid['messages'] = "Agregado correctamente";
+    } catch (PDOException $e) {
+        $valid['success'] = false;
+        $valid['messages'] = "Error al agregar la categoría: " . $e->getMessage();
+    }
 
 	echo json_encode($valid);
  
-} // /if $_POST
+}

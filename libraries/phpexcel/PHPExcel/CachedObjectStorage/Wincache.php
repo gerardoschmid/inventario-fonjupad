@@ -283,7 +283,7 @@ class PHPExcel_CachedObjectStorage_Wincache extends PHPExcel_CachedObjectStorage
 	 *
 	 * @return	boolean
 	 */
-	public static function cacheMethodIsAvailable() {
+	public static function cacheMethodIsDisponible() {
 		if (!function_exists('wincache_ucache_add')) {
 			return false;
 		}

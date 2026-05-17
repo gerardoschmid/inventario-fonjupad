@@ -89,9 +89,9 @@ abstract class PHPExcel_Style_Supervisor
 	 *
 	 * @return PHPExcel_Worksheet
 	 */
-	public function getActiveSheet()
+	public function getActivoSheet()
 	{
-		return $this->_parent->getActiveSheet();
+		return $this->_parent->getActivoSheet();
 	}
 
 	/**
@@ -102,7 +102,7 @@ abstract class PHPExcel_Style_Supervisor
 	 */
 	public function getSelectedCells()
 	{
-		return $this->getActiveSheet()->getSelectedCells();
+		return $this->getActivoSheet()->getSelectedCells();
 	}
 
 	/**
@@ -111,9 +111,9 @@ abstract class PHPExcel_Style_Supervisor
 	 *
 	 * @return string E.g. 'A1'
 	 */
-	public function getActiveCell()
+	public function getActivoCell()
 	{
-		return $this->getActiveSheet()->getActiveCell();
+		return $this->getActivoSheet()->getActivoCell();
 	}
 
 	/**
