@@ -54,8 +54,7 @@ if(count($result) > 0) {
  		); 	
  } // /foreach
 
-}// if count
-
+} // if count
 
 
 echo json_encode($output);

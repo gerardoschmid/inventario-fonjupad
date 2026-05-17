@@ -28,7 +28,7 @@
 						"on-background": "#191c1e",
 						"tertiary-fixed": "#6ffbbe",
 						"inverse-primary": "#bec6e0",
-						"primary": "#000000",
+						"primary": "#1a237e",
 						"surface-bright": "#f7f9fb",
 						"primary-container": "#131b2e",
 						"surface": "#f7f9fb",
@@ -51,7 +51,7 @@
 						"on-tertiary-fixed": "#002113",
 						"on-surface-variant": "#45464d",
 						"secondary-fixed-dim": "#b9c7e0",
-						"tertiary": "#000000",
+						"tertiary": "#1a237e",
 						"secondary-container": "#d5e3fd",
 						"on-surface": "#191c1e",
 						"primary-fixed-dim": "#bec6e0",
@@ -121,22 +121,25 @@
 			@apply font-body-md text-on-surface;
 		}
 		.dataTables_wrapper .dataTables_paginate .paginate_button {
-			@apply px-4 py-2 rounded-lg border-none hover:bg-surface-container-high transition-colors !important;
+			@apply px-4 py-2 rounded-xl border border-outline-variant bg-surface-container-lowest text-on-surface hover:bg-surface-container-high transition-all mx-1 font-label-md text-label-md !important;
 		}
 		.dataTables_wrapper .dataTables_paginate .paginate_button.current {
-			@apply bg-primary text-white border-none rounded-lg font-bold !important;
+			@apply bg-primary text-white border-primary rounded-xl font-bold shadow-md !important;
+		}
+		.dataTables_wrapper .dataTables_paginate .paginate_button.disabled {
+			@apply opacity-50 cursor-not-allowed grayscale !important;
 		}
 		.dataTables_wrapper .dataTables_filter input {
-			@apply bg-surface-container-low border border-outline-variant rounded-lg text-body-md py-2 px-4 ml-2 outline-none focus:ring-2 focus:ring-primary transition-all;
+			@apply bg-surface-container-low border border-outline-variant rounded-xl text-body-md py-2.5 px-4 ml-2 outline-none focus:ring-2 focus:ring-primary focus:border-primary transition-all shadow-sm !important;
 		}
 		.dataTables_wrapper .dataTables_length select {
-			@apply bg-surface-container-low border border-outline-variant rounded-lg text-body-md py-1 px-3 mx-2 focus:ring-2 focus:ring-primary outline-none transition-all;
+			@apply bg-surface-container-low border border-outline-variant rounded-lg text-body-md py-1.5 px-3 mx-2 focus:ring-2 focus:ring-primary outline-none transition-all !important;
 		}
 		.dataTables_wrapper table.dataTable {
 			@apply border-collapse border-none my-4 !important;
 		}
 		.dataTables_wrapper table.dataTable thead th {
-			@apply bg-surface-container-low text-label-md font-label-md text-outline uppercase tracking-wider px-6 py-4 border-b border-outline-variant !important;
+			@apply bg-surface-container-low text-label-md font-label-md text-on-surface-variant uppercase tracking-wider px-6 py-4 border-b border-outline-variant !important;
 		}
 		.dataTables_wrapper table.dataTable tbody td {
 			@apply px-6 py-4 border-b border-outline-variant text-body-md !important;
@@ -148,9 +151,13 @@
 		.dt-buttons .dt-button {
 			@apply bg-surface-container-low border border-outline-variant rounded-lg px-4 py-2 text-body-md font-body-md hover:bg-surface-container-high transition-colors !important;
 		}
+        /* Status Pills adapted from template */
+        .status-pill {
+            @apply px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5 w-fit;
+        }
 	</style>
 
-	<!-- bootstrap (Limited use for modals if needed, but Tailwind is preferred) -->
+	<!-- bootstrap (Limited use for modals) -->
 	<link rel="stylesheet" href="assests/bootstrap/css/bootstrap.min.css">
 
 	<!-- custom css -->
@@ -189,14 +196,14 @@
 	</div>
 	<!-- Desktop Nav -->
 	<nav class="hidden md:flex gap-lg">
-		<a id="topNavDashboard" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded font-bold" href="dashboard.php">Panel</a>
+		<a id="topNavDashboard" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded-lg font-label-md text-label-md" href="dashboard.php">Panel</a>
 
 		<?php if(isset($_SESSION['userId']) && $_SESSION['userId']==1) { ?>
-			<a id="topNavBrand" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded font-bold" href="brand.php">Sedes</a>
-			<a id="topNavCategories" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded font-bold" href="categories.php">Categorías</a>
-			<a id="topNavProduct" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded font-bold" href="product.php">Inventario</a>
-			<a id="topNavInventario" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded font-bold" href="inventario.php">Consulta</a>
-			<a id="topNavImport" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded font-bold" href="importar_activos.php">Cargador</a>
+			<a id="topNavBrand" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded-lg font-label-md text-label-md" href="brand.php">Sedes</a>
+			<a id="topNavCategories" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded-lg font-label-md text-label-md" href="categories.php">Categorías</a>
+			<a id="topNavProduct" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded-lg font-label-md text-label-md" href="product.php">Inventario</a>
+			<a id="topNavInventario" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded-lg font-label-md text-label-md" href="inventario.php">Consulta</a>
+			<a id="topNavImport" class="text-on-surface-variant dark:text-surface-variant hover:bg-surface-container-low dark:hover:bg-surface-variant transition-colors px-3 py-2 rounded-lg font-label-md text-label-md" href="importar_activos.php">Cargador</a>
 		<?php } ?>
 	</nav>
 
@@ -207,12 +214,13 @@
 					<img src="assests/images/stock/user.png" alt="User Profile" class="w-full h-full object-cover" onerror="this.src='https://ui-avatars.com/api/?name=Admin&background=131b2e&color=fff'">
 				</div>
 			</button>
-			<ul class="dropdown-menu dropdown-menu-right">
+			<ul class="dropdown-menu dropdown-menu-right rounded-xl shadow-xl border-outline-variant mt-2">
 				<?php if(isset($_SESSION['userId']) && $_SESSION['userId']==1) { ?>
-					<li id="topNavSetting"><a href="setting.php"> <i class="glyphicon glyphicon-wrench"></i> Configuración</a></li>
-					<li id="topNavUser"><a href="user.php"> <i class="glyphicon glyphicon-user"></i> Añadir Usuario</a></li>
+					<li id="topNavSetting"><a href="setting.php" class="flex items-center gap-2 px-4 py-2 hover:bg-surface-container-low transition-colors"> <i class="glyphicon glyphicon-wrench"></i> Configuración</a></li>
+					<li id="topNavUser"><a href="user.php" class="flex items-center gap-2 px-4 py-2 hover:bg-surface-container-low transition-colors"> <i class="glyphicon glyphicon-user"></i> Añadir Usuario</a></li>
 				<?php } ?>
-				<li id="topNavLogout"><a href="logout.php"> <i class="glyphicon glyphicon-log-out"></i> Salir</a></li>
+				<li class="divider"></li>
+				<li id="topNavLogout"><a href="logout.php" class="flex items-center gap-2 px-4 py-2 hover:bg-surface-container-low transition-colors text-error"> <i class="glyphicon glyphicon-log-out"></i> Salir</a></li>
 			</ul>
 		</div>
 	</div>

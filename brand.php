@@ -1,15 +1,48 @@
-<?php require_once 'includes/header.php'; ?>
+<?php
+require_once 'php_action/db_connect_pdo.php';
+require_once 'includes/header.php';
+
+// Fetch stats for Sede
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM brands WHERE brand_status = 1");
+$stmt->execute();
+$totalSedes = $stmt->fetchColumn();
+
+// For demonstration/context, let's say we have some active vs alert status
+// Since the schema might not have an 'alert' status directly, we can count by availability
+$stmt = $pdo->prepare("SELECT COUNT(*) FROM brands WHERE brand_active = 1 AND brand_status = 1");
+$stmt->execute();
+$disponibles = $stmt->fetchColumn();
+
+$enAlerta = $totalSedes - $disponibles;
+
+?>
 
 <!-- Header Section -->
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
     <div class="flex items-center gap-2">
         <span class="text-2xl">📍</span>
         <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-primary">Gestión de Sedes</h2>
     </div>
-    <button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:bg-primary-container transition-colors group active:scale-95" data-toggle="modal" data-target="#addBrandModel">
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:bg-primary-container transition-all group active:scale-95" data-toggle="modal" data-target="#addBrandModel">
         <span class="material-symbols-outlined text-lg">add_location_alt</span>
         <span class="font-label-md text-label-md">+ Añadir Sede</span>
     </button>
+</div>
+
+<!-- Bento Grid Stats -->
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+    <div class="bg-surface-container-lowest p-6 rounded-xl border-t-4 border-primary shadow-sm hover:shadow-md transition-shadow">
+        <p class="text-on-surface-variant text-label-md font-label-md mb-2 uppercase tracking-wider">Sedes Totales</p>
+        <h3 class="text-headline-md font-headline-md"><?php echo $totalSedes; ?></h3>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl border-t-4 border-tertiary-fixed-dim shadow-sm hover:shadow-md transition-shadow">
+        <p class="text-on-surface-variant text-label-md font-label-md mb-2 uppercase tracking-wider">Disponibles</p>
+        <h3 class="text-headline-md font-headline-md"><?php echo $disponibles; ?></h3>
+    </div>
+    <div class="bg-surface-container-lowest p-6 rounded-xl border-t-4 border-error shadow-sm hover:shadow-md transition-shadow">
+        <p class="text-on-surface-variant text-label-md font-label-md mb-2 uppercase tracking-wider">En Alerta / No Disp.</p>
+        <h3 class="text-headline-md font-headline-md text-error"><?php echo $enAlerta; ?></h3>
+    </div>
 </div>
 
 <div class="remove-messages"></div>

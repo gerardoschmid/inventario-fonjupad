@@ -1,12 +1,12 @@
 <?php require_once 'includes/header.php'; ?>
 
 <!-- Header Section -->
-<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
     <div class="flex items-center gap-2">
         <span class="text-2xl">📁</span>
         <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-primary">Gestionar Categorías</h2>
     </div>
-    <button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:bg-primary-container transition-colors group active:scale-95" data-toggle="modal" id="addCategoriesModalBtn" data-target="#addCategoriesModal">
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:bg-primary-container transition-all group active:scale-95" data-toggle="modal" id="addCategoriesModalBtn" data-target="#addCategoriesModal">
         <span class="material-symbols-outlined text-lg">category</span>
         <span class="font-label-md text-label-md">+ Añadir Categoría</span>
     </button>
@@ -15,7 +15,7 @@
 <div class="remove-messages"></div>
 
 <!-- Table Container -->
-<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden p-6">
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden p-6 animate-in fade-in duration-700 delay-200">
     <table class="w-full text-left border-collapse" id="manageCategoriesTable">
         <thead>
             <tr class="bg-surface-container-low">
