@@ -1,167 +1,131 @@
 <?php require_once 'includes/header.php'; ?>
 
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-8">
+    <div class="flex items-center gap-2">
+        <span class="text-2xl">📁</span>
+        <h2 class="text-headline-lg-mobile md:text-headline-lg font-headline-lg text-primary">Gestionar Categorías</h2>
+    </div>
+    <button class="bg-primary text-on-primary px-6 py-3 rounded-xl flex items-center gap-2 shadow-lg hover:bg-primary-container transition-colors group active:scale-95" data-toggle="modal" id="addCategoriesModalBtn" data-target="#addCategoriesModal">
+        <span class="material-symbols-outlined text-lg">category</span>
+        <span class="font-label-md text-label-md">+ Añadir Categoría</span>
+    </button>
+</div>
 
-<div class="row">
-	<div class="col-md-12">
+<div class="remove-messages"></div>
 
-		<ol class="breadcrumb">
-		  <li><a href="dashboard.php">Inicio</a></li>
-		  <li class="active">Categorías</li>
-		</ol>
+<!-- Table Container -->
+<div class="bg-surface-container-lowest rounded-xl border border-outline-variant shadow-sm overflow-hidden p-6">
+    <table class="w-full text-left border-collapse" id="manageCategoriesTable">
+        <thead>
+            <tr class="bg-surface-container-low">
+                <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Nombre de Categoría</th>
+                <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider">Estado</th>
+                <th class="px-6 py-4 text-label-md font-label-md text-on-surface-variant uppercase tracking-wider text-right">Opciones</th>
+            </tr>
+        </thead>
+    </table>
+</div>
 
-		<div class="panel panel-default">
-			<div class="panel-heading">
-				<div class="page-heading"> <i class="glyphicon glyphicon-edit"></i> Gestionar Categorías de Activo</div>
-			</div> <!-- /panel-heading -->
-			<div class="panel-body">
-
-				<div class="remove-messages"></div>
-
-				<div class="div-action pull pull-right" style="padding-bottom:20px;">
-					<button class="btn btn-default button1" data-toggle="modal" id="addCategoriesModalBtn" data-target="#addCategoriesModal"> <i class="glyphicon glyphicon-plus-sign"></i> Añadir Categoría </button>
-				</div> <!-- /div-action -->				
-				
-				<table class="table" id="manageCategoriesTable">
-					<thead>
-						<tr>							
-							<th>Nombre de Categoría</th>
-							<th>Estado</th>
-							<th style="width:15%;">Opciones</th>
-						</tr>
-					</thead>
-				</table>
-				<!-- /table -->
-
-			</div> <!-- /panel-body -->
-		</div> <!-- /panel -->		
-	</div> <!-- /col-md-12 -->
-</div> <!-- /row -->
-
-
-<!-- add categories -->
+<!-- Modals -->
+<!-- Add Categories -->
 <div class="modal fade" id="addCategoriesModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
-
+    <div class="modal-content rounded-xl overflow-hidden border-none shadow-2xl">
     	<form class="form-horizontal" id="submitCategoriesForm" action="php_action/createCategories.php" method="POST">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title"><i class="fa fa-plus"></i> Añadir Categoría</h4>
+	      <div class="modal-header bg-surface-container-low border-b border-outline-variant px-6 py-4">
+	        <button type="button" class="close text-on-surface-variant" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">add_box</span> Añadir Categoría
+            </h4>
 	      </div>
-	      <div class="modal-body">
-
+	      <div class="modal-body px-6 py-8">
 	      	<div id="add-categories-messages"></div>
+	        <div class="space-y-6">
+                <div>
+                    <label for="categoriesName" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Nombre de Categoría</label>
+                    <input type="text" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="categoriesName" placeholder="Ej. Mobiliario" name="categoriesName" autocomplete="off">
+                </div>
+                <div>
+                    <label for="categoriesEstado" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Estado</label>
+                    <select class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="categoriesEstado" name="categoriesEstado">
+                        <option value="">~~SELECCIONAR~~</option>
+                        <option value="1">Disponible</option>
+                        <option value="2">No Disponible</option>
+                    </select>
+                </div>
+            </div>
+	      </div>
+	      <div class="modal-footer bg-surface-container-low border-t border-outline-variant px-6 py-4">
+	        <button type="button" class="px-6 py-2 text-label-md font-label-md text-outline hover:text-primary transition-colors" data-dismiss="modal">Cerrar</button>
+	        <button type="submit" class="bg-primary text-on-primary px-8 py-2 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary/90 transition-all active:scale-95" id="createCategoriesBtn" data-loading-text="Cargando..." autocomplete="off">Guardar Cambios</button>
+	      </div>
+	</form>
+    </div>
+  </div>
+</div>
 
-	        <div class="form-group">
-			<label for="categoriesName" class="col-sm-4 control-label">Nombre de Categoría: </label>
-	        	<label class="col-sm-1 control-label">: </label>
-				    <div class="col-sm-7">
-				      <input type="text" class="form-control" id="categoriesName" placeholder="Nombre de Categoría" name="categoriesName" autocomplete="off">
-				    </div>
-	        </div> <!-- /form-group-->	         	        
-	        <div class="form-group">
-			<label for="categoriesEstado" class="col-sm-4 control-label">Estado: </label>
-	        	<label class="col-sm-1 control-label">: </label>
-				    <div class="col-sm-7">
-				      <select class="form-control" id="categoriesEstado" name="categoriesEstado">
-					<option value="">~~SELECCIONAR~~</option>
-					<option value="1">Disponible</option>
-					<option value="2">No Disponible</option>
-				      </select>
-				    </div>
-	        </div> <!-- /form-group-->	         	        
-	      </div> <!-- /modal-body -->
-	      
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Cerrar</button>
-	        
-	        <button type="submit" class="btn btn-primary" id="createCategoriesBtn" data-loading-text="Cargando..." autocomplete="off"> <i class="glyphicon glyphicon-ok-sign"></i> Guardar Cambios</button>
-	      </div> <!-- /modal-footer -->	      
-     	</form> <!-- /.form -->	     
-    </div> <!-- /modal-content -->    
-  </div> <!-- /modal-dailog -->
-</div> 
-<!-- /add categories -->
-
-
-<!-- edit categories brand -->
+<!-- Edit Categories -->
 <div class="modal fade" id="editCategoriesModal" tabindex="-1" role="dialog">
   <div class="modal-dialog">
-    <div class="modal-content">
-    	
+    <div class="modal-content rounded-xl overflow-hidden border-none shadow-2xl">
     	<form class="form-horizontal" id="editCategoriesForm" action="php_action/editCategories.php" method="POST">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title"><i class="fa fa-edit"></i> Editar Categoría</h4>
+	      <div class="modal-header bg-surface-container-low border-b border-outline-variant px-6 py-4">
+	        <button type="button" class="close text-on-surface-variant" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title font-headline-sm text-headline-sm text-primary flex items-center gap-2">
+                <span class="material-symbols-outlined">edit</span> Editar Categoría
+            </h4>
 	      </div>
-	      <div class="modal-body">
-
+	      <div class="modal-body px-6 py-8">
 	      	<div id="edit-categories-messages"></div>
-
-	      	<div class="modal-loading div-hide" style="width:50px; margin:auto;padding-top:50px; padding-bottom:50px;">
-						<i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i>
-						<span class="sr-only">Cargando...</span>
-					</div>
-
-		      <div class="edit-categories-result">
-		      	<div class="form-group">
-				<label for="editCategoriesName" class="col-sm-4 control-label">Nombre de Categoría: </label>
-		        	<label class="col-sm-1 control-label">: </label>
-					    <div class="col-sm-7">
-					      <input type="text" class="form-control" id="editCategoriesName" placeholder="Nombre de Categoría" name="editCategoriesName" autocomplete="off">
-					    </div>
-		        </div> <!-- /form-group-->	         	        
-		        <div class="form-group">
-				<label for="editCategoriesEstado" class="col-sm-4 control-label">Estado: </label>
-		        	<label class="col-sm-1 control-label">: </label>
-					    <div class="col-sm-7">
-					      <select class="form-control" id="editCategoriesEstado" name="editCategoriesEstado">
-						<option value="">~~SELECCIONAR~~</option>
-						<option value="1">Disponible</option>
-						<option value="2">No Disponible</option>
-					      </select>
-					    </div>
-		        </div> <!-- /form-group-->	 
-		      </div>         	        
-		      <!-- /edit brand result -->
-
-	      </div> <!-- /modal-body -->
-	      
-	      <div class="modal-footer editCategoriesFooter">
-	        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Cerrar</button>
-	        
-	        <button type="submit" class="btn btn-success" id="editCategoriesBtn" data-loading-text="Cargando..." autocomplete="off"> <i class="glyphicon glyphicon-ok-sign"></i> Guardar Cambios</button>
+		<div class="modal-loading div-hide flex justify-center py-10">
+                <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-primary"></div>
+			</div>
+		    <div class="edit-categories-result space-y-6">
+                <div>
+                    <label for="editCategoriesName" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Nombre de Categoría</label>
+                    <input type="text" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="editCategoriesName" placeholder="Nombre de Categoría" name="editCategoriesName" autocomplete="off">
+                </div>
+                <div>
+                    <label for="editCategoriesEstado" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Estado</label>
+                    <select class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="editCategoriesEstado" name="editCategoriesEstado">
+                        <option value="">~~SELECCIONAR~~</option>
+                        <option value="1">Disponible</option>
+                        <option value="2">No Disponible</option>
+                    </select>
+                </div>
+		    </div>
 	      </div>
-	      <!-- /modal-footer -->
+	      <div class="modal-footer editCategoriesFooter bg-surface-container-low border-t border-outline-variant px-6 py-4">
+	        <button type="button" class="px-6 py-2 text-label-md font-label-md text-outline hover:text-primary transition-colors" data-dismiss="modal">Cerrar</button>
+	        <button type="submit" class="bg-primary text-on-primary px-8 py-2 rounded-lg font-label-md text-label-md shadow-md hover:bg-primary/90 transition-all active:scale-95" id="editCategoriesBtn" data-loading-text="Cargando..." autocomplete="off">Guardar Cambios</button>
+	      </div>
      	</form>
-	     <!-- /.form -->
     </div>
-    <!-- /modal-content -->
   </div>
-  <!-- /modal-dailog -->
 </div>
-<!-- /categories brand -->
 
-<!-- categories brand -->
+<!-- Remove Categories -->
 <div class="modal fade" tabindex="-1" role="dialog" id="removeCategoriesModal">
   <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title"><i class="glyphicon glyphicon-trash"></i> Eliminar Categoría</h4>
+    <div class="modal-content rounded-xl overflow-hidden border-none shadow-2xl">
+      <div class="modal-header bg-error-container/20 border-b border-outline-variant px-6 py-4">
+        <button type="button" class="close text-on-surface-variant" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title font-headline-sm text-headline-sm text-error flex items-center gap-2">
+            <span class="material-symbols-outlined">delete_forever</span> Eliminar Categoría
+        </h4>
       </div>
-      <div class="modal-body">
-        <p>¿Realmente desea eliminar esta categoría?</p>
+      <div class="modal-body px-6 py-8 text-center">
+        <p class="text-body-lg font-body-lg text-on-surface">¿Realmente desea eliminar esta categoría?</p>
+        <p class="text-body-md text-outline mt-2">Esta acción no se puede deshacer.</p>
       </div>
-      <div class="modal-footer removeCategoriesFooter">
-        <button type="button" class="btn btn-default" data-dismiss="modal"> <i class="glyphicon glyphicon-remove-sign"></i> Cerrar</button>
-        <button type="button" class="btn btn-primary" id="removeCategoriesBtn" data-loading-text="Cargando..."> <i class="glyphicon glyphicon-ok-sign"></i> Guardar Cambios</button>
+      <div class="modal-footer removeCategoriesFooter bg-surface-container-low border-t border-outline-variant px-6 py-4">
+        <button type="button" class="px-6 py-2 text-label-md font-label-md text-outline hover:text-primary transition-colors" data-dismiss="modal">Cancelar</button>
+        <button type="button" class="bg-error text-on-error px-8 py-2 rounded-lg font-label-md text-label-md shadow-md hover:bg-error/90 transition-all active:scale-95" id="removeCategoriesBtn" data-loading-text="Cargando...">Eliminar Categoría</button>
       </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-<!-- /categories brand -->
-
+    </div>
+  </div>
+</div>
 
 <script src="custom/js/categories.js"></script>
 
