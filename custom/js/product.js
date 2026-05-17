@@ -3,9 +3,13 @@ var manageProductTable;
 $(document).ready(function() {
 	// top nav bar 
 	$('#navProduct').addClass('active');
+
+    // Cargar catálogos y poblar selects
+    cargarCatalogos();
+
 	// manage product data table
 	manageProductTable = $('#manageProductTable').DataTable({
-		'ajax': 'php_action/fetchProduct.php',
+		'ajax': 'php_action/get_inventario.php',
 		'order': [],
 		'dom': 'Bfrtip',
         'buttons': [
@@ -64,13 +68,14 @@ $(document).ready(function() {
 		$("#submitProductForm").unbind('submit').bind('submit', function() {
 
 			// form validation
-			var productImage = $("#productImage").val();
 			var productName = $("#productName").val();
 			var quantity = $("#quantity").val();
 			var brandName = $("#brandName").val();
 			var categoryName = $("#categoryName").val();
-			var productEstado = $("#productEstado").val();
-            var codigoInterno = $("#codigoInterno").val();
+			var productStatus = $("#productStatus").val();
+            var color = $("#color").val();
+            var estadoActivo = $("#estadoActivo").val();
+            var ubicacionEspecifica = $("#ubicacionEspecifica").val();
 	
 			if(productName == "") {
 				$("#productName").after('<p class="text-danger">El nombre del activo es obligatorio</p>');
@@ -104,15 +109,39 @@ $(document).ready(function() {
 				$("#categoryName").closest('.form-group').addClass('has-success');	  	
 			}
 
-			if(productEstado == "") {
-				$("#productEstado").after('<p class="text-danger">La visibilidad es obligatoria</p>');
-				$('#productEstado').closest('.form-group').addClass('has-error');
+            if(color == "") {
+				$("#color").after('<p class="text-danger">El color es obligatorio</p>');
+				$('#color').closest('.form-group').addClass('has-error');
+			}	else {
+				$("#color").find('.text-danger').remove();
+				$("#color").closest('.form-group').addClass('has-success');
+			}
+
+            if(estadoActivo == "") {
+				$("#estadoActivo").after('<p class="text-danger">El estado es obligatorio</p>');
+				$('#estadoActivo').closest('.form-group').addClass('has-error');
+			}	else {
+				$("#estadoActivo").find('.text-danger').remove();
+				$("#estadoActivo").closest('.form-group').addClass('has-success');
+			}
+
+            if(ubicacionEspecifica == "") {
+				$("#ubicacionEspecifica").after('<p class="text-danger">La ubicación es obligatoria</p>');
+				$('#ubicacionEspecifica').closest('.form-group').addClass('has-error');
+			}	else {
+				$("#ubicacionEspecifica").find('.text-danger').remove();
+				$("#ubicacionEspecifica").closest('.form-group').addClass('has-success');
+			}
+
+			if(productStatus == "") {
+				$("#productStatus").after('<p class="text-danger">La visibilidad es obligatoria</p>');
+				$('#productStatus').closest('.form-group').addClass('has-error');
 			}	else {
 				$("#productEstado").find('.text-danger').remove();
 				$("#productEstado").closest('.form-group').addClass('has-success');
 			}
 
-			if(productName && quantity && brandName && categoryName && productEstado) {
+			if(productName && quantity && brandName && categoryName && color && estadoActivo && ubicacionEspecifica && productStatus) {
 				// submit loading button
 				$("#createProductBtn").button('loading');
 
@@ -174,6 +203,50 @@ $(document).ready(function() {
 
 }); // document.ready fucntion
 
+function cargarCatalogos() {
+    $.ajax({
+        url: 'php_action/fetchCatalogos.php',
+        type: 'get',
+        dataType: 'json',
+        success: function(response) {
+            // Poblar Sedes (Marcas)
+            var marcasOptions = '<option value="">~~SELECCIONAR~~</option>';
+            response.marcas.forEach(function(item) {
+                marcasOptions += '<option value="'+item.id+'">'+item.nombre+'</option>';
+            });
+            $("#brandName, #editBrandName").html(marcasOptions);
+
+            // Poblar Categorías
+            var categoriasOptions = '<option value="">~~SELECCIONAR~~</option>';
+            response.categorias.forEach(function(item) {
+                categoriasOptions += '<option value="'+item.id+'">'+item.nombre+'</option>';
+            });
+            $("#categoryName, #editCategoryName").html(categoriasOptions);
+
+            // Poblar Colores
+            var coloresOptions = '<option value="">~~SELECCIONAR~~</option>';
+            response.colores.forEach(function(item) {
+                coloresOptions += '<option value="'+item.id+'">'+item.nombre+'</option>';
+            });
+            $("#color, #editColor").html(coloresOptions);
+
+            // Poblar Ubicaciones
+            var ubicacionesOptions = '<option value="">~~SELECCIONAR~~</option>';
+            response.ubicaciones.forEach(function(item) {
+                ubicacionesOptions += '<option value="'+item.id+'">'+item.nombre+'</option>';
+            });
+            $("#ubicacionEspecifica, #editUbicacionEspecifica").html(ubicacionesOptions);
+
+            // Poblar Estados
+            var estadosOptions = '<option value="">~~SELECCIONAR~~</option>';
+            response.estados.forEach(function(item) {
+                estadosOptions += '<option value="'+item.id+'">'+item.nombre+'</option>';
+            });
+            $("#estadoActivo, #editEstadoActivo").html(estadosOptions);
+        }
+    });
+}
+
 function editProduct(productId = null) {
 
 	if(productId) {
@@ -188,7 +261,7 @@ function editProduct(productId = null) {
 		$('.div-result').addClass('div-hide');
 
 		$.ajax({
-			url: 'php_action/fetchSelectedProduct.php',
+			url: 'php_action/fetchSelectedInventario.php',
 			type: 'post',
 			data: {productId: productId},
 			dataType: 'json',
@@ -204,20 +277,20 @@ function editProduct(productId = null) {
 				});  
 
 				// product id 
-				$(".editProductFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.product_id+'" />');				
-				$(".editProductPhotoFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.product_id+'" />');				
+				$(".editProductFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.id_inventario+'" />');
+				$(".editProductPhotoFooter").append('<input type="hidden" name="productId" id="productId" value="'+response.id_inventario+'" />');
 				
 				// fill fields
                 $("#editCodigoInterno").val(response.codigo_interno);
-				$("#editProductName").val(response.product_name);
-                $("#editColor").val(response.color);
-				$("#editQuantity").val(response.quantity);
-                $("#editEstadoActivo").val(response.estado);
-                $("#editUbicacionEspecifica").val(response.ubicacion_especifica);
+				$("#editProductName").val(response.nombre_articulo);
+                $("#editColor").val(response.id_color);
+				$("#editQuantity").val(response.cantidad);
+                $("#editEstadoActivo").val(response.id_estado);
+                $("#editUbicacionEspecifica").val(response.id_ubicacion);
 				$("#editRate").val(response.rate);
-				$("#editBrandName").val(response.brand_id);
-				$("#editCategoryName").val(response.categories_id);
-				$("#editProductEstado").val(response.active);
+				$("#editBrandName").val(response.id_marca);
+				$("#editCategoryName").val(response.id_categoria);
+				$("#editProductStatus").val(response.activo);
 
 				// update the product data function
 				$("#editProductForm").unbind('submit').bind('submit', function() {

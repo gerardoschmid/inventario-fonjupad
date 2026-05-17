@@ -3,7 +3,7 @@
 $localhost = "localhost";
 $username = "root";
 $password = "";
-$dbname = "sistema_inventario"; // Updated to match user context
+$dbname = "store"; // Updated to match user context
 
 try {
     $pdo = new PDO("mysql:host=$localhost;dbname=$dbname;charset=utf8", $username, $password);
