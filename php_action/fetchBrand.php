@@ -1,7 +1,7 @@
 <?php 	
 
 require_once 'core.php';
-require_once 'db_connect_pdo.php';
+
 
 $sql = "SELECT brand_id, brand_name, brand_active, brand_status FROM brands WHERE brand_status = 1";
 $stmt = $pdo->prepare($sql);

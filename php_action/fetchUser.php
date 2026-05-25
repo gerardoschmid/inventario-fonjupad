@@ -1,7 +1,7 @@
 <?php 	
 
 require_once 'core.php';
-require_once 'db_connect_pdo.php';
+
 
 $sql = "SELECT user_id, username FROM users WHERE user_id != 1";
 $stmt = $pdo->prepare($sql);

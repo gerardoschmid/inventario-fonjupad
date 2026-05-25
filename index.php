@@ -1,9 +1,8 @@
 <?php 
-require_once 'config/database.php';
-require_once 'config/helpers.php';
+require_once 'php_action/core.php';
 
-session_start();
-
+// The session is already started and checked in php_action/core.php
+// If core.php finds a userId, it might redirect here, but we need to handle the store_url logic
 if(isset($_SESSION['userId'])) {
 	header('location:'.$store_url.'dashboard.php');		
     exit();

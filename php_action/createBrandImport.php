@@ -3,7 +3,7 @@ ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
 error_reporting(E_ALL);
 require_once 'core.php';
-require_once 'db_connect_pdo.php';
+
 require_once '../libraries/phpexcel/PHPExcel.php';
 require_once '../libraries/phpexcel/PHPExcel/IOFactory.php';
 
@@ -34,27 +34,35 @@ if($_FILES) {
 				}
 				if(!empty($no_error_data)) {
 					foreach ($no_error_data as $value) {
-						$select_sql = "SELECT * FROM brands WHERE brand_name ='$value[0]'";
-						$result = $connect->query($select_sql);
-						if($result->num_rows == 0) { 
-						$sql = "INSERT INTO brands (brand_name, brand_active, brand_status) VALUES ('$value[0]', '$value[1]', '$value[1]')";
+                        // Refactorización: Uso de PDO y Sentencias Preparadas
+						$select_sql = "SELECT * FROM brands WHERE brand_name = :brand_name";
+						$stmt_select = $pdo->prepare($select_sql);
+                        $stmt_select->execute([':brand_name' => $value[0]]);
+						$result = $stmt_select->fetch();
+
+						if(!$result) {
+						    $sql = "INSERT INTO brands (brand_name, brand_active, brand_status) VALUES (:name, :active, :status)";
 							try {
-	$stmt = $pdo->prepare($sql);
-	$stmt->execute();
-	$success = true;
-} catch (PDOException $e) {
-	$success = false;
-}
-if($success) {
+                                $stmt = $pdo->prepare($sql);
+                                $stmt->execute([
+                                    ':name' => $value[0],
+                                    ':active' => $value[1],
+                                    ':status' => $value[1]
+                                ]);
+                                $success = true;
+                            } catch (PDOException $e) {
+                                $success = false;
+                            }
+                            if($success) {
 								$valid['success'] = true;
 								$valid['messages'] = "Agregado correctamente";
 							} else {
 								$valid['success'] = false;
-								$valid['messages'] = "Error al agregar the brands";
+								$valid['messages'] = "Error al agregar las sedes";
 							}
 						} else {
 							$valid['success'] = true;
-							$valid['messages'] = "Agregado correctamente";
+							$valid['messages'] = "Sede ya existente (omitida)";
 						}
 					}
 				}

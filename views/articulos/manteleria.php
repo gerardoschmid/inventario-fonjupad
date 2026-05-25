@@ -1,5 +1,4 @@
 <?php
-require_once 'config/helpers.php';
 require_once 'models/Articulo.php';
 
 $objArticulo = new Articulo($pdo);

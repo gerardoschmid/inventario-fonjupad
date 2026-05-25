@@ -1,7 +1,7 @@
 <?php 	
 
 require_once 'core.php';
-require_once 'db_connect_pdo.php';
+
 
 $brandId = $_POST['brandId'];
 

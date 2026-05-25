@@ -4,7 +4,7 @@
  * composer require phpoffice/phpspreadsheet
  */
 
-require_once 'php_action/db_connect_pdo.php';
+require_once 'config/database.php';
 // require 'vendor/autoload.php'; // Descomentar cuando esté instalado composer
 
 use PhpOffice\PhpSpreadsheet\IOFactory;

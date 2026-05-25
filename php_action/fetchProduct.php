@@ -1,7 +1,7 @@
 <?php 	
 
 require_once 'core.php';
-require_once 'db_connect_pdo.php';
+
 
 // The SQL View vista_inventario is used to fetch inventory data with descriptive names
 $sql = "SELECT * FROM vista_inventario WHERE status = 1";
