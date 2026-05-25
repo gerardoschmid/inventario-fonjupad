@@ -1,5 +1,7 @@
 <?php
+require_once 'config/helpers.php';
 require_once 'models/Articulo.php';
+
 $objArticulo = new Articulo($pdo);
 $items = $objArticulo->obtenerTodo($_GET);
 ?>
@@ -14,7 +16,7 @@ $items = $objArticulo->obtenerTodo($_GET);
         <form method="GET" class="row g-3">
             <input type="hidden" name="view" value="manteleria">
             <div class="col-md-6">
-                <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o código..." value="<?= $_GET['busqueda'] ?? '' ?>">
+                <input type="text" name="busqueda" class="form-control" placeholder="Buscar por nombre o código..." value="<?= e($_GET['busqueda'] ?? '') ?>">
             </div>
             <div class="col-md-4">
                 <select name="color" class="form-select">
@@ -45,12 +47,12 @@ $items = $objArticulo->obtenerTodo($_GET);
         <tbody>
             <?php foreach($items as $item): ?>
             <tr>
-                <td><?= $item['codigo_interno'] ?></td>
-                <td><?= $item['nombre'] ?></td>
-                <td><?= $item['color'] ?></td>
-                <td><?= $item['nombre_ubicacion'] ?></td>
-                <td><?= $item['cantidad_actual'] ?></td>
-                <td><?= $item['estado_conservacion'] ?></td>
+                <td><?= e($item['codigo_interno']) ?></td>
+                <td><?= e($item['nombre']) ?></td>
+                <td><?= e($item['color']) ?></td>
+                <td><?= e($item['nombre_ubicacion']) ?></td>
+                <td><?= e($item['cantidad_actual']) ?></td>
+                <td><?= e($item['estado_conservacion']) ?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

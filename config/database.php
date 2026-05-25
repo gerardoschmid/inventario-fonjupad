@@ -1,6 +1,9 @@
 <?php
 // config/database.php
 
+// Configuración de URL base
+$store_url = "http://localhost/inventario-cermopa/";
+
 $host = 'localhost';
 $db   = 'sistema_inventario'; // El nombre que usamos en el script SQL
 $user = 'root';
