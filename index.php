@@ -1,55 +1,29 @@
 <?php 
-require_once 'php_action/db_connect.php';
+require_once 'php_action/core.php';
+require_once 'controllers/AuthController.php';
 
-session_start();
+$authController = new AuthController($pdo);
 
 if(isset($_SESSION['userId'])) {
 	header('location:'.$store_url.'dashboard.php');		
+    exit();
 }
 
 $errors = array();
 
 if($_POST) {		
+	$username = $_POST['username'] ?? '';
+	$password = $_POST['password'] ?? '';
 
-	$username = $_POST['username'];
-	$password = $_POST['password'];
+    $result = $authController->login($username, $password);
 
-	if(empty($username) || empty($password)) {
-		if($username == "") {
-			$errors[] = "El nombre de usuario es obligatorio";
-		} 
-
-		if($password == "") {
-			$errors[] = "La contraseña es obligatoria";
-		}
-	} else {
-		$sql = "SELECT * FROM users WHERE username = '$username'";
-		$result = $connect->query($sql);
-
-		if($result->num_rows == 1) {
-			$password = md5($password);
-			// exists
-			$mainSql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
-			$mainResult = $connect->query($mainSql);
-
-			if($mainResult->num_rows == 1) {
-				$value = $mainResult->fetch_assoc();
-				$user_id = $value['user_id'];
-
-				// set session
-				$_SESSION['userId'] = $user_id;
-
-				header('location:'.$store_url.'dashboard.php');	
-			} else{
-				
-				$errors[] = "Combinación de usuario/contraseña incorrecta";
-			} // /else
-		} else {		
-			$errors[] = "El nombre de usuario no existe";
-		} // /else
-	} // /else not empty username // password
-	
-} // /if $_POST
+    if ($result['success']) {
+        header('location:'.$store_url.'dashboard.php');
+        exit();
+    } else {
+        $errors = $result['errors'];
+    }
+}
 ?>
 
 <!DOCTYPE html>
@@ -113,14 +87,14 @@ if($_POST) {
                         <?php foreach ($errors as $key => $value) { ?>
                             <div class="flex items-center gap-2 p-3 bg-error-container text-on-error-container rounded-lg text-sm border border-error/20 animate-in slide-in-from-left-2">
                                 <span class="material-symbols-outlined text-sm">error</span>
-                                <span><?php echo $value; ?></span>
+                                <span><?php echo e($value); ?></span>
                             </div>
                         <?php } ?>
                     </div>
                 <?php } ?>
 
                 <!-- Login Form -->
-                <form action="<?php echo $_SERVER['PHP_SELF'] ?>" method="post" id="loginForm" class="space-y-5">
+                <form action="<?php echo e($_SERVER['PHP_SELF']) ?>" method="post" id="loginForm" class="space-y-5">
                     <div>
                         <label for="username" class="block text-xs font-bold text-outline uppercase tracking-wider mb-2">Nombre de Usuario</label>
                         <div class="relative group">

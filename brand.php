@@ -1,5 +1,5 @@
 <?php
-require_once 'php_action/db_connect_pdo.php';
+require_once 'config/database.php';
 require_once 'includes/header.php';
 
 // Fetch stats for Sede

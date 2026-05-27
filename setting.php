@@ -1,12 +1,15 @@
-<?php require_once 'includes/header.php'; ?>
+<?php
+require_once 'includes/header.php';
+?>
 
 <?php 
 $user_id = $_SESSION['userId'];
-$sql = "SELECT * FROM users WHERE user_id = {$user_id}";
-$query = $connect->query($sql);
-$result = $query->fetch_assoc();
 
-$connect->close();
+// Refactorización: Uso de PDO y Sentencias Preparadas para prevenir SQL Injection
+$sql = "SELECT * FROM users WHERE user_id = :user_id";
+$stmt = $pdo->prepare($sql);
+$stmt->execute([':user_id' => $user_id]);
+$result = $stmt->fetch();
 ?>
 
 <!-- Header Section -->
@@ -29,7 +32,7 @@ $connect->close();
 
             <div>
                 <label for="username" class="block text-label-md font-label-md text-on-surface-variant uppercase mb-2">Usuario</label>
-                <input type="text" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="username" name="username" placeholder="Nuevo Usuario" value="<?php echo $result['username']; ?>"/>
+                <input type="text" class="w-full px-4 py-3 bg-surface-container-low border border-outline-variant rounded-lg focus:ring-2 focus:ring-primary outline-none transition-all" id="username" name="username" placeholder="Nuevo Usuario" value="<?php echo e($result['username']); ?>"/>
             </div>
 
             <div class="pt-4">

@@ -1,62 +1,60 @@
 <?php
 // controllers/ArticuloController.php
-require_once 'config/database.php';
+require_once __DIR__ . '/../models/Articulo.php';
 
 class ArticuloController {
-    private $pdo;
+    private $articuloModel;
 
     public function __construct($pdo) {
-        $this->pdo = $pdo;
+        $this->articuloModel = new Articulo($pdo);
     }
 
-    public function obtenerFiltros() {
-        return [
-            'sedes' => $this->pdo->query("SELECT DISTINCT nombre_sede FROM sedes")->fetchAll(PDO::FETCH_COLUMN),
-            'ubicaciones' => $this->pdo->query("SELECT DISTINCT nombre_ubicacion FROM ubicaciones")->fetchAll(PDO::FETCH_COLUMN),
-            'colores' => $this->pdo->query("SELECT DISTINCT color FROM articulos WHERE color != ''")->fetchAll(PDO::FETCH_COLUMN),
-            'formas' => $this->pdo->query("SELECT DISTINCT forma FROM articulos WHERE forma IS NOT NULL")->fetchAll(PDO::FETCH_COLUMN)
+    /**
+     * Procesa la creación o actualización de un activo.
+     */
+    public function guardar($postData) {
+        $id_inventario = $postData['productId'] ?? null;
+
+        // Mapeo unificado para resolver inconsistencias entre frontend y backend
+        $datos = [
+            'nombre_articulo' => $postData['editProductName'] ?? $postData['productName'],
+            'codigo_interno'  => $postData['editCodigoInterno'] ?? $postData['codigoInterno'],
+            'id_marca'        => $postData['editBrandName'] ?? $postData['brandName'],
+            'id_categoria'    => $postData['editCategoryName'] ?? $postData['categoryName'],
+            'id_color'        => $postData['editColor'] ?? $postData['color'],
+            'cantidad'        => $postData['editQuantity'] ?? $postData['quantity'],
+            'id_estado'       => $postData['editEstadoActivo'] ?? $postData['estadoActivo'],
+            'id_ubicacion'    => $postData['editUbicacionEspecifica'] ?? $postData['ubicacionEspecifica'],
+            'rate'            => $postData['editRate'] ?? $postData['rate'],
+            'activo'          => $postData['editProductEstado'] ?? $postData['productEstado']
         ];
+
+        try {
+            if ($id_inventario) {
+                $resultado = $this->articuloModel->actualizar($id_inventario, $datos);
+                $mensaje = "Actualizado exitosamente";
+            } else {
+                $resultado = $this->articuloModel->crear($datos);
+                $mensaje = "Agregado exitosamente";
+            }
+
+            return [
+                'success' => $resultado,
+                'messages' => $resultado ? $mensaje : "No se pudo procesar la solicitud"
+            ];
+        } catch (Exception $e) {
+            return [
+                'success' => false,
+                'messages' => "Error: " . $e->getMessage()
+            ];
+        }
     }
 
-    public function listarInventario($filtros = []) {
-        $sql = "SELECT
-                    a.id_articulo,
-                    a.codigo_interno,
-                    a.nombre,
-                    a.marca,
-                    a.color,
-                    a.forma,
-                    SUM(e.cantidad_actual) as total_cantidad,
-                    GROUP_CONCAT(CONCAT(u.nombre_ubicacion, ' (', s.nombre_sede, '): ', e.cantidad_actual) SEPARATOR '<br>') as detalle_ubicacion
-                FROM articulos a
-                JOIN inventario_existencias e ON a.id_articulo = e.id_articulo
-                JOIN ubicaciones u ON e.id_ubicacion = u.id_ubicacion
-                JOIN sedes s ON u.id_sede = s.id_sede
-                WHERE 1=1";
-
-        $params = [];
-
-        if (!empty($filtros['sede'])) {
-            $sql .= " AND s.nombre_sede = :sede";
-            $params[':sede'] = $filtros['sede'];
-        }
-        if (!empty($filtros['ubicacion'])) {
-            $sql .= " AND u.nombre_ubicacion = :ubicacion";
-            $params[':ubicacion'] = $filtros['ubicacion'];
-        }
-        if (!empty($filtros['color'])) {
-            $sql .= " AND a.color = :color";
-            $params[':color'] = $filtros['color'];
-        }
-        if (!empty($filtros['forma'])) {
-            $sql .= " AND a.forma = :forma";
-            $params[':forma'] = $filtros['forma'];
-        }
-
-        $sql .= " GROUP BY a.id_articulo, a.codigo_interno, a.nombre, a.marca, a.color, a.forma";
-
-        $stmt = $this->pdo->prepare($sql);
-        $stmt->execute($params);
-        return $stmt->fetchAll();
+    public function eliminar($id) {
+        $resultado = $this->articuloModel->eliminar($id);
+        return [
+            'success' => $resultado,
+            'messages' => $resultado ? "Eliminado correctamente" : "Error al eliminar"
+        ];
     }
 }
