@@ -9,80 +9,84 @@ class ImportarController {
         $this->pdo = $pdo;
     }
 
-    public function importarCSV($archivo, $id_sede = 1) {
-        if (!file_exists($archivo) || !is_readable($archivo)) {
-            return ["error" => "El archivo no existe o no se puede leer."];
+    public function importarCSV($archivo) {
+        if (!$archivo || !file_exists($archivo) || !is_readable($archivo)) {
+            return ["error" => "Archivo inválido o no seleccionando."];
         }
 
-        $contador_nuevos = 0;
+        $success_count = 0;
+        $error_count = 0;
+        $errors = [];
 
-        if (($gestor = fopen($archivo, "r")) !== FALSE) {
-            // Saltamos la cabecera
-            fgetcsv($gestor, 0, ";");
+        if (($file = fopen($archivo, "r")) !== FALSE) {
+            // Saltamos cabecera
+            fgetcsv($file, 10000, ";");
 
-            while (($datos = fgetcsv($gestor, 0, ";")) !== FALSE) {
-                if (empty($datos[1])) continue; // Salta si no hay código interno
+            // Preparar consultas PDO
+            $stmt_brand = $this->pdo->prepare("SELECT brand_id FROM brands WHERE brand_name = ?");
+            $stmt_cat = $this->pdo->prepare("SELECT categories_id FROM categories WHERE categories_name = ?");
+            $stmt_insert = $this->pdo->prepare("INSERT INTO product (product_name, codigo_interno, color, brand_id, categories_id, quantity, rate, estado, ubicacion_especifica, active, status)
+                        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 1, 1)
+                        ON DUPLICATE KEY UPDATE
+                        product_name = VALUES(product_name),
+                        color = VALUES(color),
+                        brand_id = VALUES(brand_id),
+                        categories_id = VALUES(categories_id),
+                        quantity = VALUES(quantity),
+                        rate = VALUES(rate),
+                        estado = VALUES(estado),
+                        ubicacion_especifica = VALUES(ubicacion_especifica)");
 
-                // Normalización de datos con mb_strtoupper para acentos y caracteres especiales
-                $codigo_interno = mb_strtoupper(trim($datos[1]), 'UTF-8');
-                $nombre         = mb_strtoupper(trim($datos[2]), 'UTF-8');
-                $marca          = mb_strtoupper(trim($datos[3]), 'UTF-8');
-                $color          = mb_strtoupper(trim($datos[6]), 'UTF-8');
-                $cantidad       = (int)$datos[7];
-                $ubicacion_nom  = mb_strtoupper(trim($datos[8]), 'UTF-8');
-                $estado         = mb_strtoupper(trim($datos[9]), 'UTF-8');
+            while (($column = fgetcsv($file, 10000, ";")) !== FALSE) {
+                // CSV columns: codigo_interno; nombre; color; cantidad; costo; sede_nombre; categoria_nombre; estado; ubicacion
+                $codigo_interno = $column[0];
+                $nombre = $column[1];
+                $color = $column[2];
+                $cantidad = $column[3];
+                $costo = $column[4];
+                $sede_nombre = $column[5];
+                $categoria_nombre = $column[6];
+                $estado = $column[7];
+                $ubicacion = $column[8];
 
-                // Nota: El CSV original no tiene "forma", pero el sistema lo requiere como filtro.
-                // Si el CSV tuviera más columnas, mapearíamos 'forma' aquí (ej: $datos[16]).
-                $forma = '';
+                // Validar Sede
+                $stmt_brand->execute([$sede_nombre]);
+                $res_brand = $stmt_brand->fetch();
+                if (!$res_brand) {
+                    $errors[] = "Sede '$sede_nombre' no encontrada para el código $codigo_interno";
+                    $error_count++;
+                    continue;
+                }
+                $sede_id = $res_brand['brand_id'];
+
+                // Validar Categoria
+                $stmt_cat->execute([$categoria_nombre]);
+                $res_cat = $stmt_cat->fetch();
+                if (!$res_cat) {
+                    $errors[] = "Categoría '$categoria_nombre' no encontrada para el código $codigo_interno";
+                    $error_count++;
+                    continue;
+                }
+                $categories_id = $res_cat['categories_id'];
 
                 try {
-                    $this->pdo->beginTransaction();
-
-                    // 1. Insertar o Actualizar ARTICULO
-                    $sqlArt = "INSERT INTO articulos (codigo_interno, nombre, marca, color, forma)
-                               VALUES (?, ?, ?, ?, ?)
-                               ON DUPLICATE KEY UPDATE
-                               nombre = VALUES(nombre),
-                               marca = VALUES(marca),
-                               color = VALUES(color),
-                               forma = VALUES(forma)";
-                    $stmtArt = $this->pdo->prepare($sqlArt);
-                    $stmtArt->execute([$codigo_interno, $nombre, $marca, $color, $forma]);
-
-                    // Obtener ID del artículo
-                    $stmtGetId = $this->pdo->prepare("SELECT id_articulo FROM articulos WHERE codigo_interno = ?");
-                    $stmtGetId->execute([$codigo_interno]);
-                    $id_articulo = $stmtGetId->fetchColumn();
-
-                    // 2. Gestionar UBICACIÓN (verificar si existe para la sede)
-                    $stmtUbi = $this->pdo->prepare("SELECT id_ubicacion FROM ubicaciones WHERE nombre_ubicacion = ? AND id_sede = ?");
-                    $stmtUbi->execute([$ubicacion_nom, $id_sede]);
-                    $id_ubicacion = $stmtUbi->fetchColumn();
-
-                    if (!$id_ubicacion) {
-                        $sqlInsUbi = "INSERT INTO ubicaciones (nombre_ubicacion, id_sede) VALUES (?, ?)";
-                        $this->pdo->prepare($sqlInsUbi)->execute([$ubicacion_nom, $id_sede]);
-                        $id_ubicacion = $this->pdo->lastInsertId();
+                    if ($stmt_insert->execute([$nombre, $codigo_interno, $color, $sede_id, $categories_id, $cantidad, $costo, $estado, $ubicacion])) {
+                        $success_count++;
+                    } else {
+                        $errors[] = "Error al insertar $codigo_interno";
+                        $error_count++;
                     }
-
-                    // 3. Gestionar EXISTENCIAS
-                    $sqlExist = "INSERT INTO inventario_existencias (id_articulo, id_ubicacion, cantidad_actual, estado_conservacion)
-                                 VALUES (?, ?, ?, ?)
-                                 ON DUPLICATE KEY UPDATE
-                                 cantidad_actual = VALUES(cantidad_actual),
-                                 estado_conservacion = VALUES(estado_conservacion)";
-                    $this->pdo->prepare($sqlExist)->execute([$id_articulo, $id_ubicacion, $cantidad, $estado]);
-
-                    $this->pdo->commit();
-                    $contador_nuevos++;
-                } catch (Exception $e) {
-                    $this->pdo->rollBack();
-                    error_log("Error importando código $codigo_interno: " . $e->getMessage());
+                } catch (PDOException $e) {
+                    $errors[] = "Error al insertar $codigo_interno: " . $e->getMessage();
+                    $error_count++;
                 }
             }
-            fclose($gestor);
-            return ["success" => "Proceso finalizado. Filas procesadas: $contador_nuevos"];
+            fclose($file);
+            return [
+                "success" => "Importación completada. Éxito: $success_count, Errores: $error_count.",
+                "error_count" => $error_count,
+                "errors" => $errors
+            ];
         }
         return ["error" => "No se pudo abrir el archivo."];
     }

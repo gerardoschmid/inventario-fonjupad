@@ -1,8 +1,9 @@
 <?php 
 require_once 'php_action/core.php';
+require_once 'controllers/AuthController.php';
 
-// The session is already started and checked in php_action/core.php
-// If core.php finds a userId, it might redirect here, but we need to handle the store_url logic
+$authController = new AuthController($pdo);
+
 if(isset($_SESSION['userId'])) {
 	header('location:'.$store_url.'dashboard.php');		
     exit();
@@ -11,42 +12,17 @@ if(isset($_SESSION['userId'])) {
 $errors = array();
 
 if($_POST) {		
-
 	$username = $_POST['username'] ?? '';
 	$password = $_POST['password'] ?? '';
 
-	if(empty($username) || empty($password)) {
-		if($username == "") {
-			$errors[] = "El nombre de usuario es obligatorio";
-		} 
+    $result = $authController->login($username, $password);
 
-		if($password == "") {
-			$errors[] = "La contraseña es obligatoria";
-		}
-	} else {
-		// Refactorización: Uso de PDO y Sentencias Preparadas contra SQL Injection
-		$sql = "SELECT * FROM users WHERE username = :username";
-		$stmt = $pdo->prepare($sql);
-		$stmt->execute([':username' => $username]);
-		$user = $stmt->fetch();
-
-		if($user) {
-			// Refactorización: Uso de password_verify() para seguridad de nivel industrial
-			// Mantenemos compatibilidad temporal con MD5 para evitar bloqueos durante la migración
-			if (password_verify($password, $user['password']) || md5($password) === $user['password']) {
-				
-				$_SESSION['userId'] = $user['user_id'];
-
-				header('location:'.$store_url.'dashboard.php');
-				exit();
-			} else {
-				$errors[] = "Combinación de usuario/contraseña incorrecta";
-			}
-		} else {		
-			$errors[] = "El nombre de usuario no existe";
-		}
-	}
-	
+    if ($result['success']) {
+        header('location:'.$store_url.'dashboard.php');
+        exit();
+    } else {
+        $errors = $result['errors'];
+    }
 }
 ?>
 

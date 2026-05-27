@@ -72,7 +72,7 @@ $(document).ready(function() {
 			var quantity = $("#quantity").val();
 			var brandName = $("#brandName").val();
 			var categoryName = $("#categoryName").val();
-			var productStatus = $("#productStatus").val();
+			var productEstado = $("#productEstado").val();
             var color = $("#color").val();
             var estadoActivo = $("#estadoActivo").val();
             var ubicacionEspecifica = $("#ubicacionEspecifica").val();
@@ -133,15 +133,15 @@ $(document).ready(function() {
 				$("#ubicacionEspecifica").closest('.form-group').addClass('has-success');
 			}
 
-			if(productStatus == "") {
-				$("#productStatus").after('<p class="text-danger">La visibilidad es obligatoria</p>');
-				$('#productStatus').closest('.form-group').addClass('has-error');
+			if(productEstado == "") {
+				$("#productEstado").after('<p class="text-danger">La visibilidad es obligatoria</p>');
+				$('#productEstado').closest('.form-group').addClass('has-error');
 			}	else {
 				$("#productEstado").find('.text-danger').remove();
 				$("#productEstado").closest('.form-group').addClass('has-success');
 			}
 
-			if(productName && quantity && brandName && categoryName && color && estadoActivo && ubicacionEspecifica && productStatus) {
+			if(productName && quantity && brandName && categoryName && color && estadoActivo && ubicacionEspecifica && productEstado) {
 				// submit loading button
 				$("#createProductBtn").button('loading');
 
@@ -290,7 +290,7 @@ function editProduct(productId = null) {
 				$("#editRate").val(response.rate);
 				$("#editBrandName").val(response.id_marca);
 				$("#editCategoryName").val(response.id_categoria);
-				$("#editProductStatus").val(response.activo);
+				$("#editProductEstado").val(response.activo);
 
 				// update the product data function
 				$("#editProductForm").unbind('submit').bind('submit', function() {
